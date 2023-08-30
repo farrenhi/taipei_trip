@@ -15,7 +15,7 @@ db_config_haha = {
     "port": 3306,
 }
 
-# local parameters
+# # local parameters
 # db_config_haha = {
 #     "host": "localhost",
 #     "user": "root",
@@ -81,9 +81,10 @@ def mrts():
             "error": True,
             "message": "MRT names data is not properly read from SQL database."
         }
+        return jsonify(response), 500
     else:    
         response = {"data": [result['mrt_name'] for result in myresult]} # mrt_names
-    return jsonify(response)
+        return jsonify(response)
 
 # Version 12: put all url links into one key-value pair
 def format_attraction_data(results):
@@ -231,7 +232,7 @@ def get_attraction(attractionId):
     else:
         formatted_attraction = format_attraction_data(results)
         response = {
-            "data": formatted_attraction
+            "data": formatted_attraction[0]
         }
         return jsonify(response)
     
