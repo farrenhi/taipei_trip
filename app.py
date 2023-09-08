@@ -18,21 +18,21 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 import mysql.connector.pooling
 
 # Configuration for the database connection pool
-# db_config_haha = {
-#     "host": "localhost",
-#     "user": "root",
-#     "password": "MyNewPass5!",
-#     "database": "mydb",
-#     "port": 3306,
-# }
-
-# # local parameters
 db_config_haha = {
     "host": "localhost",
     "user": "root",
-    "password": "12345678",
+    "password": "MyNewPass5!",
     "database": "mydb",
+    "port": 3306,
 }
+
+# # local parameters
+# db_config_haha = {
+#     "host": "localhost",
+#     "user": "root",
+#     "password": "12345678",
+#     "database": "mydb",
+# }
 
 
 # Create a connection pool
