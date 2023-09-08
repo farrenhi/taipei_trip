@@ -1,27 +1,38 @@
 from flask import *
 app=Flask(__name__)
+
+
+app = Flask(
+    __name__,
+    static_folder = "static",
+    static_url_path = "/static",
+)
+
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+
+
+
 
 # Connection Pool
 import mysql.connector.pooling
 
 # Configuration for the database connection pool
-db_config_haha = {
-    "host": "localhost",
-    "user": "root",
-    "password": "MyNewPass5!",
-    "database": "mydb",
-    "port": 3306,
-}
-
-# # local parameters
 # db_config_haha = {
 #     "host": "localhost",
 #     "user": "root",
-#     "password": "12345678",
+#     "password": "MyNewPass5!",
 #     "database": "mydb",
+#     "port": 3306,
 # }
+
+# # local parameters
+db_config_haha = {
+    "host": "localhost",
+    "user": "root",
+    "password": "12345678",
+    "database": "mydb",
+}
 
 
 # Create a connection pool
@@ -54,6 +65,7 @@ def execute_query_read(query, data=None):
 @app.route("/")
 def index():
 	return render_template("index.html")
+
 @app.route("/attraction/<id>")
 def attraction(id):
 	return render_template("attraction.html")
@@ -151,9 +163,9 @@ def get_attractions():
     if keyword:
         query += " WHERE m.name = %s OR s.name LIKE %s"
         keyword_param = f"%{keyword}%"
-        data = (keyword, keyword_param, per_page, offset)
+        data = (keyword, keyword_param, per_page + 1, offset)
     else:
-        data = (per_page, offset)
+        data = (per_page + 1, offset)
 
     query += """
         GROUP BY s.id
@@ -172,11 +184,23 @@ def get_attractions():
         return jsonify(response), 500
     else:
         formatted_results = format_attraction_data(results)  # Use the function
+        # print(formatted_results)
+        if len(formatted_results) == 13:
+            
+            max_id_entry = max(formatted_results, key=lambda x: x["id"])
+            formatted_results.remove(max_id_entry)
+            
+            response = {
+                "nextPage": page + 1,
+                "data": formatted_results
+            }
 
-        response = {
-            "nextPage": page + 1,
+        else:
+            response = {
+            "nextPage": None,
             "data": formatted_results
-        }
+            }
+    
         return jsonify(response)
 
 # single sight version 1:

@@ -1,0 +1,537 @@
+
+/* Define a variable for a color */
+:root {
+    /* 1:70; 2:50; 3:20 */
+    --primary1: #448899;
+    --primary2: #66AABB;
+    --primary3: #AADDEE;
+
+    /* 1:70; 2:50; 3:20; 4:10 */
+    --secondary1: #666666;
+    --secondary2: #757575;
+    --secondary3: #E8E8E8;
+    --secondary4: #F8F8F8;
+}
+
+body {
+    margin: 0;
+    font-family: "Noto Sans TC", sans-serif;
+}
+
+.headline_h2_bold {
+    font-family:"Noto Sans TC", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+}
+
+.slogantitle_h1_bold {
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 24px;
+}
+
+.body_body_bold {
+    /* Body - Bold 16(13.3) */
+    /* something looks like above on Figma */
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 13.3px;
+}
+
+.body_body_medium {
+    /* Body - Med 16(13.3) */
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 13.3px;
+}
+
+
+.nav_box {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: white;
+
+}
+
+.nav_bar {
+    display:flex; 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.left {
+    padding: 2px 0;
+    color: var(--primary1);
+    /* background-color: gray; */
+}
+
+.right-desktop-menu{
+    /* background-color: aquamarine; */
+    display:flex; 
+    justify-content:flex-end;
+    flex: auto; 
+    /* auto fill */
+    /* background-color: orange; */
+}
+
+.item1 {
+    /* margin-right:15px; */
+    padding: 10px;
+    color: var(--secondary1);
+    /* background-color: lightgreen; */
+}
+
+.item2 {
+    /* margin-right:15px; */
+    padding: 10px;
+    color: var(--secondary1);
+    /* background-color: lightgreen; */
+}
+
+.welcome{
+    display:flex; justify-content: center; align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    height: 250px;
+    background-color: lightblue;
+}
+
+.welcome-banner {
+    margin-top: 56px;
+    background-image: url('/static/images/taipei101.png'); /* Replace 'your-banner-image.png' with the actual path to your PNG image */
+    background-size: cover; /* Adjust the background size as needed */
+    background-repeat: no-repeat; /* Prevent image repetition */
+    background-position: center center; /* Center the image horizontally and vertically */
+    color: #fff; /* Set text color to white or another suitable color for better visibility */
+    height: 320px;
+    font-weight: 700;
+
+    display: flex;
+
+    /* vertically center */
+    align-items: center; 
+
+    /* horizontally center */
+    justify-content: center;
+}
+
+.slogan_flex {
+    width: 1200px;
+    /* background-color: black; */
+    height: 250px;
+
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    flex-direction: row;   
+}
+
+.slogan {
+    /* background-color: grey; */
+    display: flex; 
+    flex-direction: column;
+    padding: 10px;
+    font-family: "Noto Sans TC", sans-serif;
+}
+
+.welcome_text1 {
+    margin-bottom: 15px;
+    color: var(--secondary4);
+}
+
+.welcome_text2 {
+    margin-bottom: 25px;
+    color: var(--secondary4);
+}
+
+
+/* input a new search bar input */
+/* Style for the search bar container */
+.search_bar {
+    display: flex;
+    background-color: #fff; /* Background color for the search bar */
+    border-radius: 5px;
+    height: 46px;
+    width: 460px; /* Total width of input box (400px) + button (60px) */
+}
+
+/* Style for the search input field */
+.search-input {
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    padding: 15px; /* Add padding for spacing */
+    width: 400px; /* Width of the input box */
+    box-shadow: 0px 0px 20px 0px #ABC; 
+    color: var(--secondary2);
+}
+
+.search-button {
+    background-color: #448899;
+    color: red;
+    border: none;
+    width: 60px;
+    box-sizing: border-box;
+    padding: 8px 15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.search-button {
+    background-color: #448899;
+    color: red;
+    border: none;
+    width: 60px;
+    box-sizing: border-box;
+    padding: 8px 15px; /* Apply padding to the button */
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    align-items: center; /* Center the image vertically */
+    justify-content: center; /* Center the image horizontally */
+    cursor: pointer; /* Change cursor to indicate the button is clickable */
+}
+
+.search-button img {
+    width: 100%; /* Make the image fill the button */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+
+
+
+
+
+/* for desktop monitor > 1280px  */
+
+
+/* two version!  */
+/*
+.desktop-menu{
+    text-align: center;
+    display: block;
+    /* background-color: blueviolet;
+} 
+*/
+
+.mobile-menu{
+    /* text-align: center; */
+    display: none;
+}
+
+.main{
+    /* background-color: grey; */
+    max-width: 1200px;
+    margin: 0 auto;
+
+    padding-top: 40px;
+    padding-bottom: 40px; 
+    font-family: "Noto Sans TC", sans-serif;
+}
+
+.list_bar {
+    /* background-color: gray; */
+    /* padding: 13px 10px; */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.list_bar_left_container {
+    /* background-color: orange; */
+    box-sizing: content-box;
+    width: 32px;
+    height: 32px;
+    padding: 9px 0px 9px 15px;
+    flex-shrink: 0;
+  
+}
+
+.list_bar_left_container img {
+    /* source image is 64*64px */
+    width: 100%;
+    height: 100%;
+}
+
+
+.list_bar_container {
+    /* background-color: lightgreen; */
+    box-sizing: content-box;
+    width: 1086px;
+    /* flex-grow: 1; */
+    height: 24px;
+    padding: 13px 10px; 
+    overflow: hidden;
+    /* flex: auto; */
+    /* flex-shrink: 1; */
+    white-space: nowrap;
+}
+
+.list{
+    /* background-color: pink; */
+    display: flex;
+    /* flex-direction: row; */
+    transition: transform 0.3s ease-in-out;
+}
+
+.list div {
+    color: #666; 
+    padding: 5px 15px; 
+    /* border: 1px dashed black; */
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+
+.list_bar_right_container {
+    /* background-color: pink; */
+    box-sizing: content-box;
+    width: 32px;
+    height: 32px;
+    padding: 9px 15px 9px 0px;
+    flex-shrink: 0; 
+}
+
+.list_bar_right_container img {
+    /* source image is 64*64px */
+    width: 100%;
+    height: 100%;
+}
+
+
+.part2_twelve {
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.sight {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 1px solid var(--secondary-color-gray-20, #E8E8E8);
+    background: var(--White, #FFF);
+    box-sizing: content-box;
+    overflow: hidden;
+    height: 240px;
+    width: 270px;
+}
+
+.img_box {
+    width: 270px;
+    height: 195px;
+    position: relative; /* Add position relative to create a context for absolute positioning */
+}
+
+
+.sight img {
+    width: 100%;
+    height: 195px;
+    object-fit: cover;
+    display: block;
+}
+
+.img_box .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px; /* Adjust padding as needed */
+    text-align: left;
+    z-index: 1; /* Ensure the overlay is above the image */
+
+    opacity: 0.6;
+    background: var(--additional-color-black, #000);
+    box-sizing: border-box;
+    padding: 10px;
+    height: 40px;
+    color: var(--additional-color-white, #FFF);
+}
+
+
+
+/* question about title and title_text. check display mode 
+also the height!
+*/
+
+.title_box {
+    /* outline: 1px dashed grey; */
+    display: flex; 
+    height: 45px;
+}
+
+.title_box_left {
+    /* background-color: pink; */
+    padding: 10px;
+    display: flex; 
+    align-items: center;
+    justify-content: left;
+    color: var(--secondary2)
+
+}
+
+.title_box_right {
+    /* background-color: orange; */
+    padding: 10px;
+    display: flex; 
+    align-items: center;
+    justify-content: right;
+    flex: auto;
+    color: var(--secondary2)
+}
+
+
+/* smallest desktop monitor 1280*/
+/* tablet */
+
+
+.footer {
+    background-color: #757575;
+    color: #fff;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.footer_text{
+    padding: 5px 0;
+    font-size: 16px;
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: 700;
+}
+
+
+
+
+
+@media (max-width:1200px){
+
+    .promotion{
+        width: calc(50% - 10px);
+    }
+    .promotion:last-child{
+        flex-grow: 1;
+        }
+
+    
+    .title{
+        width: calc(25% - 15px);
+    }
+}
+
+/* cell phone. smallet is 360px */
+@media (max-width:600px) {
+    .nav_bar {
+        box-sizing: content-box;
+        height: 34px;
+        padding: 10px 0px 10px 10px;
+        display: flex;
+        /* justify-content: space-between; */
+
+    }
+    
+    .left {
+        /* background-color: lightgray; */
+        display: flex;
+        align-items: center;
+        /* flex:auto;  */
+        /*, you are specifying that it should automatically grow or 
+        shrink as needed to fill the available space 
+        within the flex container. */
+        line-height: 34px;
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    /* two version!  */
+    .right-desktop-menu {
+        display: flex;
+        justify-content: right;
+        /* background-color: lightcoral; */
+        font-size: 16px;
+        box-sizing: border-box;
+        height: 34px;
+        width: 175px;
+
+    }
+    
+    /* .mobile-menu {    } */
+
+
+    .slogan_flex {
+        justify-content: center;
+    }
+
+    .slogan {
+        width: 340px;
+        font-weight: bold;
+        font-size: 27px;
+        line-height: 24px;
+        box-sizing: border-box;
+        padding: 10px;
+
+    }
+
+    .search-input {
+        width: 225px;
+    }
+    
+    .search_bar {
+        width: 285px;
+    }
+
+    .search-button {
+        width: 60px;
+    }
+
+    .part2_twelve {
+        box-sizing: content-box;
+        padding: 15px;
+
+        justify-content: center; /* Add this to center the items horizontally */
+        align-items: center; /* Add this to center the items vertically */
+    }
+
+    .sight {
+        width: 320px;
+        height: 280px;
+    }
+
+    .img_box {
+        width: 320px;
+        height: 235px;
+    }
+
+    .sight img {
+        width: 100%;
+        height: 235px;
+    }
+
+
+
+    .text{
+        font-size: 30px;
+    }
+
+    .promotion{
+        width: 100%;
+    }
+
+    .title{
+        width: calc(100%);
+    }
+}
