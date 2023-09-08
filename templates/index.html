@@ -142,7 +142,7 @@
             const hostname = window.location.hostname;
             // when hostname is used below before ":3000", it does not work on local PC...
 
-            fetch('http://${hostname}:3000/api/mrts')
+            fetch('http://3.217.150.118:3000/api/mrts')
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('container');

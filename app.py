@@ -26,7 +26,7 @@ db_config_haha = {
     "port": 3306,
 }
 
-# # local parameters
+# local parameters
 # db_config_haha = {
 #     "host": "localhost",
 #     "user": "root",
