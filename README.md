@@ -6,6 +6,10 @@ This website will show packages of day trip in Taipei. Users could see the intro
 
 There will be a payment system. <br>
 
-Once the demo site link is avaiable, I will update it here. <br>
+Once the demo site link: <br>
 
-Update: Monday. September 4, 2023. 
+http://3.217.150.118:3000/    <br>
+
+Update: September 10, 2023.  <br>
+
+Next Update: I will do the translation from chinese to english. This would be related to SQL database modification. <br>
