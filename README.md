@@ -6,7 +6,7 @@ This website will show packages of day trip in Taipei. Users could see the intro
 
 There will be a payment system. <br>
 
-Once the demo site link: <br>
+The demo site link: <br>
 
 http://3.217.150.118:3000/    <br>
 
