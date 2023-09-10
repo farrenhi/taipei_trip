@@ -1,29 +1,36 @@
+import os
+print(os.getcwd())
+
+# # Change the current working directory to the desired path
+# os.chdir('C:\phase2\taipei-day-trip\data')
+
+
+
 import json, sys, re
 # Connection Pool
 import mysql.connector.pooling
 
 # Assuming you have a JSON file named "taipei-attractions.json"
-with open('taipei-attractions.json', 'r', encoding='utf-8') as file:
+with open(r'C:\phase2\taipei-day-trip\data\taipei-attractions.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
+# with open('C:\phase2\taipei-day-trip\data\taipei-attractions.json', 'r', encoding='utf-8') as file:
+
 
 # Set standard output encoding to UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
 # Now you can print the data containing Unicode characters
 
-
-
-
 # Configuration for the database connection pool
-db_config_haha = {
+db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "12345678",
+    "password": "MyNewPass5!",
     "database": "mydb",
 }
 
 # Create a connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **db_config_haha)
+connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **db_config)
 
 # Function to execute a query using a connection from the pool
 def execute_query_read(query, data=None):
@@ -52,7 +59,7 @@ JOIN mrt m ON s.mrt_id = m.id
 GROUP BY mrt_name
 ORDER BY num_sights DESC;
 """
-execute_query_read(query_40sights, (,))
+# execute_query_read(query_40sights, (,))
 
 
 
@@ -137,6 +144,11 @@ def extract_jpg_urls(string):
 #         execute_query_update(file_query, (sight_id, url))
 
 # Iterate through JSON entries
+
+dict_mrt = {}
+dict_cat = {}
+dict_name_sight = {}
+
 for entry in data['result']['results']:
     id = entry['_id']
     name = entry['name']
@@ -145,30 +157,46 @@ for entry in data['result']['results']:
     transport = entry['direction']  # Assuming 'direction' corresponds to 'transport' in the database
     lat = float(entry['latitude'])
     lng = float(entry['longitude'])
-    if entry['MRT'] is None:
-        mrt_name = 'No MRT station'
-    else:
-        mrt_name = entry['MRT']
     category_name = entry['CAT']
     file_urls = entry['file'].split(' ')  # Assuming file URLs are space-separated
+    if entry['MRT'] is None:
+        mrt_name = "No MRT Station!"
+    else:
+        mrt_name = entry['MRT']
+        
+
+    if dict_mrt.get(mrt_name, False):
+        print('mrt_name found in python dict. No action to SQL')
+    else:
+        # Insert MRT station if not already present
+        dict_mrt[mrt_name] = dict_mrt.get(mrt_name, 0) + 1
+        mrt_query = "INSERT IGNORE INTO mrt (name) VALUES (%s)"
+        execute_query_update(mrt_query, (mrt_name,))
     
-    # Insert MRT station if not already present
-    mrt_query = "INSERT IGNORE INTO mrt (name) VALUES (%s)"
-    execute_query_update(mrt_query, (mrt_name,))
-    
-    # Insert category if not already present
-    category_query = "INSERT IGNORE INTO category (name) VALUES (%s)"
-    execute_query_update(category_query, (category_name,))
+    if dict_cat.get(category_name, False):
+        print("category_name found in python dict! No action to SQL")
+    else:
+        # Insert category if not already present
+        dict_cat[category_name] = dict_cat.get(category_name, 0) + 1
+        category_query = "INSERT IGNORE INTO category (name) VALUES (%s)"
+        execute_query_update(category_query, (category_name,))
     
     # Get MRT and category IDs
     mrt_id_query = "SELECT id FROM mrt WHERE name = %s"
-    category_id_query = "SELECT id FROM category WHERE name = %s"
     mrt_id = execute_query_read(mrt_id_query, (mrt_name,))[0]['id']
+    
+    # print(mrt_name, 'query data check:', execute_query_read(mrt_id_query, (mrt_name,)))
+    
+    category_id_query = "SELECT id FROM category WHERE name = %s"
     category_id = execute_query_read(category_id_query, (category_name,))[0]['id']
     
-    # Insert sight
-    sight_query = "INSERT INTO sight (id, name, description, address, transport, lat, lng, mrt_id, category_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    execute_query_update(sight_query, (id, name, description, address, transport, lat, lng, mrt_id, category_id))
+    if dict_name_sight.get(name, False):
+        print("name(sight) found in python dict! No action to SQL")
+    else:
+        # Insert sight
+        dict_name_sight[name] = dict_name_sight.get(name, 0) + 1
+        sight_query = "INSERT INTO sight (id, name, description, address, transport, lat, lng, mrt_id, category_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        execute_query_update(sight_query, (id, name, description, address, transport, lat, lng, mrt_id, category_id))
     
     # Get sight ID
     sight_id_query = "SELECT id FROM sight WHERE name = %s"

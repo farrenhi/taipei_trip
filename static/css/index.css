@@ -44,7 +44,9 @@ body {
 .body_body_medium {
     /* Body - Med 16(13.3) */
     font-family: "Noto Sans TC", sans-serif;
-    font-weight: 500;
+    
+    /* medium wont work! */
+    font-weight: 500; 
     font-size: 16px;
     line-height: 13.3px;
 }
@@ -67,7 +69,7 @@ body {
 }
 
 .left {
-    padding: 2px 0;
+    padding: 0px 10px;
     color: var(--primary1);
     /* background-color: gray; */
 }
@@ -311,9 +313,11 @@ body {
 
 
 .part2_twelve {
-    display: flex; justify-content: space-between;
+    display: flex; 
+    /* justify-content: space-between; */
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 30px 0;
+    gap: 30px 30px;
     padding: 15px;
     box-sizing: border-box;
 }
@@ -327,7 +331,7 @@ body {
     box-sizing: content-box;
     overflow: hidden;
     height: 240px;
-    width: 270px;
+    width: 265px;
 }
 
 .img_box {
@@ -438,7 +442,7 @@ also the height!
     .nav_bar {
         box-sizing: content-box;
         height: 34px;
-        padding: 10px 0px 10px 10px;
+        padding: 10px 0px;
         display: flex;
         /* justify-content: space-between; */
 

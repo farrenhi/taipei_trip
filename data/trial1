@@ -1,0 +1,357 @@
+import json, sys, re
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+import json, sys, re
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+import re
+
+# Sample input data
+data = """
+== Taipei Metro ==
+The Taipei Metro System consists of five lines: {{rint|taipei|br}} [[Wenhu line]], {{rint|taipei|r}} [[Tamsui–Xinyi line]], {{rint|taipei|o}} [[Zhonghe–Xinlu line]], {{rint|taipei|g}} [[Songshan–Xindian line]], {{rint|taipei|bl}} [[Bannan line]]. There are in total 117 stations in total on these lines.
+{|class="wikitable sortable"
+!Name!!Chinese!![[Taiwanese Hokkien|Taiwanese]]!![[Taiwanese Hakka|Hakka]]!!Code
+|-
+|[[Banqiao station|Banqiao]]||{{lang|zh-tw|板橋}}||Pang-kiô||Piông-khiâu
+|<span style="color:#{{rcr|TRTS|BL}};">BL07</span>
+|-
+|[[Beimen MRT station|Beimen]]||{{lang|zh-tw|北門}}||Pak-mn̂g||Pet-mùn
+|<span style="color:#{{rcr|TRTS|G}};">G13</span>
+|-
+|[[Beitou MRT station|Beitou]]||{{lang|zh-tw|北投}}||Pak-tâu||Pet-thèu
+|<span style="color:#{{rcr|TRTS|R}};">R22</span>
+|-
+|[[Cailiao MRT station|Cailiao]]||{{lang|zh-tw|菜寮}}||Chhài-liâu||Chhoi-liâu
+|<span style="color:#{{rcr|TRTS|O}};">O14</span>
+|-
+|[[Chiang Kai-shek Memorial Hall MRT station|Chiang Kai-Shek Memorial Hall]]||{{lang|zh-tw|中正紀念堂}}||Tiong-chèng Kì-liām-tn̂g||Chûng-chang Ki-ngiam-thòng
+|<span style="color:#{{rcr|TRTS|R}};">R08</span>/<span style="color:#{{rcr|TRTS|G}};">G10</span>
+|-
+|[[Daan MRT station|Daan]]||{{lang|zh-tw|大安}}||Tāi-an||Thai-ôn
+|<span style="color:#{{rcr|TRTS|BR}};">BR09</span>/<span style="color:#{{rcr|TRTS|R}};">R05</span>
+|-
+|[[Daan Park MRT station|Daan Park]]||{{lang|zh-tw|大安森林公園}}||Tāi-an Sim-lîm Kong-hn̂g||Thai-ôn Sêm-lìm Kûng-yèn
+|<span style="color:#{{rcr|TRTS|R}};">R06</span>
+|-
+|[[Dahu Park MRT station|Dahu Park]]||{{lang|zh-tw|大湖公園}}||Tōa-ô͘ Kong-hn̂g||Thai-fù Kûng-yèn
+|<span style="color:#{{rcr|TRTS|BR}};">BR20</span>
+|-
+|[[Danfeng MRT station|Danfeng]]||{{lang|zh-tw|丹鳳}}||Tan-hōng||Tan-fung
+|<span style="color:#{{rcr|TRTS|O}};">O20</span>
+|-
+|[[Dapinglin MRT station|Dapinglin]]||{{lang|zh-tw|大坪林}}||Toā-pêⁿ-nâ||Thai-phiâng-lìm
+|<span style="color:#{{rcr|TRTS|G}};">G04</span>
+|-
+|[[Daqiaotou MRT station|Daqiaotou]]||{{lang|zh-tw|大橋頭}}||Tōa-kiô-thâu||Thai-khiâu-theù
+|<span style="color:#{{rcr|TRTS|O}};">O12</span>
+|-
+|[[Dazhi MRT station|Dazhi]]||{{lang|zh-tw|大直}}||Tāi-ti̍t||Thai-chhṳ̍t
+|<span style="color:#{{rcr|TRTS|BR}};">BR14</span>
+|-
+|[[Dingpu MRT station|Dingpu]]||{{lang|zh-tw|頂埔}}||Téng-po͘||Táng-phû
+|<span style="color:#{{rcr|TRTS|BL}};">BL01</span>
+|-
+|[[Dingxi MRT station|Dingxi]]||{{lang|zh-tw|頂溪}}||Téng-khe||Táng-hâi
+|<span style="color:#{{rcr|TRTS|O}};">O04</span>
+|-
+|[[Donghu MRT station|Donghu]]||{{lang|zh-tw|東湖}}||Tang-ô͘||Tûng-fù
+|<span style="color:#{{rcr|TRTS|BR}};">BR22</span>
+|-
+|[[Dongmen MRT station|Dongmen]]||{{lang|zh-tw|東門}}||Tang-mn̂g||Tûng-mùn
+|<span style="color:#{{rcr|TRTS|R}};">R07</span>/<span style="color:#{{rcr|TRTS|O}};">O06</span>
+|-
+|[[Far Eastern Hospital MRT station|Far Eastern Hospital]]||{{lang|zh-tw|亞東醫院}}||A-tang Pēⁿ-īⁿ||Â-tûng Yî-yèn
+|<span style="color:#{{rcr|TRTS|BL}};">BL05</span>
+|-
+|[[Fu Jen University MRT station|Fu Jen University]]||{{lang|zh-tw|輔大}}||Hú-tāi||Phú-thai
+|<span style="color:#{{rcr|TRTS|O}};">O19</span>
+|-
+|[[Fuxinggang MRT station|Fuxinggang]]||{{lang|zh-tw|復興崗}}||Ho̍k-heng-kong||Fu̍k-hîn-kông
+|<span style="color:#{{rcr|TRTS|R}};">R23</span>
+|-
+|[[Fuzhong MRT station|Fuzhong]]||{{lang|zh-tw|府中}}||Hú-tiong||Fú-chûng
+|<span style="color:#{{rcr|TRTS|BL}};">BL06</span>
+|-
+|[[Gangqian MRT station|Gangqian]]||{{lang|zh-tw|港墘}}||Káng-kîⁿ||Kóng-chhièn
+|<span style="color:#{{rcr|TRTS|BR}};">BR17</span>
+|-
+|[[Gongguan MRT station|Gongguan]]||{{lang|zh-tw|公館}}||Kong-koán||Kûng-kón
+|<span style="color:#{{rcr|TRTS|G}};">G07</span>
+|-
+|[[Guandu MRT station|Guandu]]||{{lang|zh-tw|關渡}}||Kan-tāu||Koân-thu
+|<span style="color:#{{rcr|TRTS|R}};">R25</span>
+|-
+|[[Guting MRT station|Guting]]||{{lang|zh-tw|古亭}}||Kó͘-têng||Kú-thìn
+|<span style="color:#{{rcr|TRTS|O}};">O05</span>/<span style="color:#{{rcr|TRTS|G}};">G09</span>
+|-
+|[[Haishan MRT station|Haishan]]||{{lang|zh-tw|海山}}||Hái-san||Hói-sân
+|<span style="color:#{{rcr|TRTS|BL}};">BL04</span>
+|-
+|[[Hongshulin MRT station|Hongshulin]]||{{lang|zh-tw|紅樹林}}||Âng-chhiū-nâ||Fùng-su-lìm
+|<span style="color:#{{rcr|TRTS|R}};">R27</span>
+|-
+|[[Houshanpi MRT station|Houshanpi]]||{{lang|zh-tw|後山埤}}||Āu-soaⁿ-pi||Heu-sân-phî
+|<span style="color:#{{rcr|TRTS|BL}};">BL20</span>
+|-
+|[[Huilong MRT station|Huilong]]||{{lang|zh-tw|迴龍}}||Hôe-liông||Fûi-liùng
+|<span style="color:#{{rcr|TRTS|O}};">O21</span>
+|-
+|[[Huzhou MRT station|Huzhou]]||{{lang|zh-tw|葫洲}}||Ô͘-chiu||Fù-chû
+|<span style="color:#{{rcr|TRTS|BR}};">BR21</span>
+|-
+|[[Jiangzicui MRT station|Jiangzicui]]||{{lang|zh-tw|江子翠}}||Káng-á-chhuì||Kông-chṳ́-chhù
+|<span style="color:#{{rcr|TRTS|BL}};">BL09</span>
+|-
+|[[Jiannan Road MRT station|Jiannan Road]]||{{lang|zh-tw|劍南路}}||Kiàm-lâm-lō͘||Kiam-nàm-lu
+|<span style="color:#{{rcr|TRTS|BR}};">BR15</span>
+|-
+|[[Jiantan MRT station|Jiantan]]||{{lang|zh-tw|劍潭}}||Kiàm-thâm||Kiam-thâm
+|<span style="color:#{{rcr|TRTS|R}};">R15</span>
+|-
+|[[Jingan MRT station|Jingan]]||{{lang|zh-tw|景安}}||Kéng-an||Kín-ôn
+|<span style="color:#{{rcr|TRTS|O}};">O02</span>
+|-
+|[[Jingmei MRT station|Jingmei]]||{{lang|zh-tw|景美}}||Kéng-bí||Kín-mî
+|<span style="color:#{{rcr|TRTS|G}};">G05</span>
+|-
+|[[Kunyang MRT station|Kunyang]]||{{lang|zh-tw|昆陽}}||Khun-iông||Khûn-yòng
+|<span style="color:#{{rcr|TRTS|BL}};">BL21</span>
+|-
+|[[Linguang MRT station|Linguang]]||{{lang|zh-tw|麟光}}||Lîn-kong||Lîn-kông
+|<span style="color:#{{rcr|TRTS|BR}};">BR06</span>
+|-
+|[[Liuzhangli MRT station|Liuzhangli]]||{{lang|zh-tw|六張犁}}||La̍k-tiuⁿ-lê||Liuk-chông-lài
+|<span style="color:#{{rcr|TRTS|BR}};">BR07</span>
+|-
+|[[Longshan Temple MRT station|Longshan Temple]]||{{lang|zh-tw|龍山寺}}||Liông-san-sī||Liùng-sân-sṳ̀
+|<span style="color:#{{rcr|TRTS|BL}};">BL10</span>
+|-
+|[[Luzhou MRT station|Luzhou]]||{{lang|zh-tw|蘆洲}}||Lô͘-chiu||Lù-chû
+|<span style="color:#{{rcr|TRTS|O}};">O54</span>
+|-
+|[[Mingde MRT station|Mingde]]||{{lang|zh-tw|明德}}||Bêng-tek||Mìn-tet
+|<span style="color:#{{rcr|TRTS|R}};">R18</span>
+|-
+|[[Minquan West Road MRT station|Minquan West Road]]||{{lang|zh-tw|民權西路}}||Bîn-koân-se-lō͘||Mìn-khièn-sî-lu
+|<span style="color:#{{rcr|TRTS|R}};">R13</span>/<span style="color:#{{rcr|TRTS|O}};">O11</span>
+|-
+|[[Muzha MRT station|Muzha]]||{{lang|zh-tw|木柵}}||Ba̍k-sa||Muk-cha
+|<span style="color:#{{rcr|TRTS|BR}};">BR02</span>
+|-
+|[[Nangang station|Nangang]]||{{lang|zh-tw|南港}}||Lâm-káng||Nàm-kóng
+|<span style="color:#{{rcr|TRTS|BL}};">BL22</span>
+|-
+|[[Nangang Software Park MRT station|Nangang Software Park]]||{{lang|zh-tw|南港軟體園區}}||Lâm-káng Nńg-thé Hn̂g-khu||Nàm-kóng Ngiôn-thí Yèn-khî
+|<span style="color:#{{rcr|TRTS|BR}};">BR23</span>
+|-
+|[[Nanjing Fuxing MRT station|Nanjing Fuxing]]||{{lang|zh-tw|南京復興}}||Lâm-kiaⁿ Ho̍k-heng||Nàm-kîn Fu̍k-hîn
+|<span style="color:#{{rcr|TRTS|BR}};">BR11</span>/<span style="color:#{{rcr|TRTS|G}};">G16</span>
+|-
+|[[Nanjing Sanmin MRT station|Nanjing Sanmin]]||{{lang|zh-tw|南京三民}}||Lâm-kiaⁿ Sam-bîn||Nàm-kîn Sâm-mìn
+|<span style="color:#{{rcr|TRTS|G}};">G18</span>
+|-
+|[[Nanshijiao MRT station|Nanshijiao]]||{{lang|zh-tw|南勢角}}||Lâm-sì-kak||Nàm-sṳ-kok
+|<span style="color:#{{rcr|TRTS|O}};">O01</span>
+|-
+|[[NTU Hospital MRT station|National Taiwan University Hospital]]||{{lang|zh-tw|台大醫院}}||Tâi-tāi Pēⁿ-īⁿ||Thòi-thai Yî-yen
+|<span style="color:#{{rcr|TRTS|R}};">R09</span>
+|-
+|[[Neihu MRT station|Neihu]]||{{lang|zh-tw|內湖}}||Lāi-ô͘||Nui-fù
+|<span style="color:#{{rcr|TRTS|BR}};">BR19</span>
+|-
+|[[Qilian MRT station|Qilian]]||{{lang|zh-tw|唭哩岸}}||Ki-lí-gān||Kî-lí-ngan
+|<span style="color:#{{rcr|TRTS|R}};">R20</span>
+|-
+|[[Qiyan MRT station|Qiyan]]||{{lang|zh-tw|奇岩}}||Kî-giâm||Khì-ngâm
+|<span style="color:#{{rcr|TRTS|R}};">R21</span>
+|-
+|[[Qizhang MRT station|Qizhang]]||{{lang|zh-tw|七張}}||Chhit-tiuⁿ||Chhit-chông
+|<span style="color:#{{rcr|TRTS|G}};">G03</span>
+|-
+|[[Sanchong MRT station|Sanchong]]||{{lang|zh-tw|三重}}||Saⁿ-têng-po͘||Sâm-chhùng
+|<span style="color:#{{rcr|TRTS|O}};">O15</span>
+|-
+|[[Sanchong Elementary School MRT station|Sanchong Elementary School]]||{{lang|zh-tw|三重國小}}||Sam-tiông Kok-sió||Sâm-chhùng Koet-seú
+|<span style="color:#{{rcr|TRTS|O}};">O50</span>
+|-
+|[[Sanhe Junior High School MRT station|Sanhe Junior High School]]||{{lang|zh-tw|三和國中}}||Sam-hô Kok-tiong||Sâm-fò Koet-chûng
+|<span style="color:#{{rcr|TRTS|O}};">O51</span>
+|-
+|[[Sanmin Senior High School MRT station|Sanmin Senior High School]]||{{lang|zh-tw|三民高中}}||Sam-bîn Ko-tiong||Sâm-mìn Kô-chûng
+|<span style="color:#{{rcr|TRTS|O}};">O53</span>
+|-
+|[[Shandao Temple MRT station|Shandao Temple]]||{{lang|zh-tw|善導寺}}||Siān-tō-sī||San-thô-sṳ̀
+|<span style="color:#{{rcr|TRTS|BL}};">BL13</span>
+|-
+|[[Shilin MRT station|Shilin]]||{{lang|zh-tw|士林}}||Sū-lîm||Sṳ-lìm
+|<span style="color:#{{rcr|TRTS|R}};">R16</span>
+|-
+|[[Shipai MRT station|Shipai]]||{{lang|zh-tw|石牌}}||Chio̍h-pâi-á||Sa̍k-phài
+|<span style="color:#{{rcr|TRTS|R}};">R19</span>
+|-
+|[[Shuanglian MRT station|Shuanglian]]||{{lang|zh-tw|雙連}}||Siang-liân||Sûng-lièn
+|<span style="color:#{{rcr|TRTS|R}};">R12</span>
+|-
+|[[Songjiang Nanjing MRT station|Songjiang Nanjing]]||{{lang|zh-tw|松江南京}}||Siông-kang Lâm-kiaⁿ||Chhiùng-kông Nàm-kîn
+|<span style="color:#{{rcr|TRTS|O}};">O08</span>/<span style="color:#{{rcr|TRTS|G}};">G15</span>
+|-
+|[[Songshan station|Songshan]]||{{lang|zh-tw|松山}}||Siông-san||Chhiùng-sân
+|<span style="color:#{{rcr|TRTS|G}};">G19</span>
+|-
+|[[Songshan Airport MRT station|Songshan Airport]]||{{lang|zh-tw|松山機場}}||Siông-san Ki-tiûⁿ||Chhiùng-sân Kî-chhòng
+|<span style="color:#{{rcr|TRTS|BR}};">BR13</span>
+|-
+|[[St. Ignatius High School MRT station|St. Ignatius High School]]||{{lang|zh-tw|徐匯中學}}||Chhî-hōe Tiong-ha̍k||Chhî-fi Chûng-ho̍k
+|<span style="color:#{{rcr|TRTS|O}};">O52</span>
+|-
+|[[Sun Yat-sen Memorial Hall MRT station|Sun Yat-Sen Memorial Hall]]||{{lang|zh-tw|國父紀念館}}||Kok-hū Kì-liām-koán||Koet-fu Ki-ngiam-kón
+|<span style="color:#{{rcr|TRTS|BL}};">BL17</span>
+|-
+|[[Taipei 101 / World Trade Center MRT station|Taipei 101 / World Trade Center]]||{{lang|zh-tw|台北101/世貿}}||Tâi-pak 101/Sè bō͘||Thòi-pet 101/Sṳ Mo
+|<span style="color:#{{rcr|TRTS|R}};">R03</span>
+|-
+|[[Taipei Arena MRT station|Taipei Arena]]||{{lang|zh-tw|台北小巨蛋}}||Tâi-pak Sió-kī-tàn||Thòi-pet Seú-ki-thàn
+|<span style="color:#{{rcr|TRTS|G}};">G17</span>
+|-
+|[[Taipei Bridge MRT station|Taipei Bridge]]||{{lang|zh-tw|台北橋}}||Tâi-pak-kiô||Thòi-pet-khiâu
+|<span style="color:#{{rcr|TRTS|O}};">O13</span>
+|-
+|[[Taipei City Hall MRT station|Taipei City Hall]]||{{lang|zh-tw|市政府}}||Chhī-chèng-hú||Sṳ-chṳn-fú
+|<span style="color:#{{rcr|TRTS|BL}};">BL18</span>
+|-
+|[[Taipei station|Taipei Main]]||{{lang|zh-tw|台北車站}}||Tâi-pak Chhia-chām||Thòi-pet Chhâ-chhàm
+|<span style="color:#{{rcr|TRTS|R}};">R10</span>/<span style="color:#{{rcr|TRTS|BL}};">BL12</span>
+|-
+|[[Taipei Nangang Exhibition Center MRT station|Taipei Nangang Exhibition Center]]||{{lang|zh-tw|南港展覽館}}||Lâm-káng Tián-lám-koán||Nàm-kóng Chán-lám-kón
+|<span style="color:#{{rcr|TRTS|BR}};">BR24</span>/<span style="color:#{{rcr|TRTS|BL}};">BL23</span>
+|-
+|[[Taipei Zoo station|Taipei Zoo]]||{{lang|zh-tw|動物園}}||Tōng-bu̍t-hn̂g||Thung-vu̍t-yèn
+|<span style="color:#{{rcr|TRTS|BR}};">BR01</span>
+|-
+|[[Taipower Building MRT station|Taipower Building]]||{{lang|zh-tw|台電大樓}}||Tâi-tiān Tōa-lâu||Thòi-thien Thai-leù
+|<span style="color:#{{rcr|TRTS|G}};">G08</span>
+|-
+|[[Tamsui MRT station|Tamsui]]||{{lang|zh-tw|淡水}}||Tām-chúi||Thâm-súi
+|<span style="color:#{{rcr|TRTS|R}};">R28</span>
+|-
+|[[Technology Building MRT station|Technology Building]]||{{lang|zh-tw|科技大樓}}||Kho-ki Tōa-lâu||Khô-kî Thai-lèu
+|<span style="color:#{{rcr|TRTS|BR}};">BR08</span>
+|-
+|[[Touqianzhuang MRT station|Touqianzhuang]]||{{lang|zh-tw|頭前莊}}||Thâu-chêng-chng||Theù-chhièn-chông
+|<span style="color:#{{rcr|TRTS|O}};">O17</span>
+|-
+|[[Tucheng MRT station|Tucheng]]||{{lang|zh-tw|土城}}||Thô͘-siâⁿ||Thú-sàng
+|<span style="color:#{{rcr|TRTS|BL}};">BL03</span>
+|-
+|[[Wanfang Community MRT station|Wanfang Community]]||{{lang|zh-tw|萬芳社區}}||Bān-hong Siā-khu||Van-fông Sa-khî
+|<span style="color:#{{rcr|TRTS|BR}};">BR03</span>
+|-
+|[[Wanfang Hospital MRT station|Wanfang Hospital]]||{{lang|zh-tw|萬芳醫院}}||Bān-hong Pēⁿ-īⁿ||Van-fông Phiang-yen
+|<span style="color:#{{rcr|TRTS|BR}};">BR04</span>
+|-
+|[[Wanlong MRT station|Wanlong]]||{{lang|zh-tw|萬隆}}||Bān-liông||Van-lùng
+|<span style="color:#{{rcr|TRTS|G}};">G06</span>
+|-
+|[[Wende MRT station|Wende]]||{{lang|zh-tw|文德}}||Bûn-tek||Vùn-tet
+|<span style="color:#{{rcr|TRTS|BR}};">BR18</span>
+|-
+|[[Xiangshan MRT station|Xiangshan]]||{{lang|zh-tw|象山}}||Chhiūⁿ-soaⁿ||Siong-sân
+|<span style="color:#{{rcr|TRTS|R}};">R02</span>
+|-
+|[[Xianse Temple MRT station|Xianse Temple]]||{{lang|zh-tw|先嗇宮}}||Sian-sek-kiong||Siên-sep-kiûng
+|<span style="color:#{{rcr|TRTS|O}};">O16</span>
+|-
+|[[Xiaobitan MRT station|Xiaobitan]]||{{lang|zh-tw|小碧潭}}||Sió-phek-thâm||Seú-pit-thàm
+|<span style="color:#{{rcr|TRTS|Xiaobitan}};">G03A</span>
+|-
+|[[Xiaonanmen MRT station|Xiaonanmen]]||{{lang|zh-tw|小南門}}||Sió-lâm-mn̂g||Seú-nàm-mùn
+|<span style="color:#{{rcr|TRTS|G}};">G11</span>
+|-
+|[[Xihu MRT station|Xihu]]||{{lang|zh-tw|西湖}}||Se-ô͘||Sî-fù
+|<span style="color:#{{rcr|TRTS|BR}};">BR16</span>
+|-
+|[[Ximen MRT station|Ximen]]||{{lang|zh-tw|西門}}||Se-mn̂g||Sî-mùn
+|<span style="color:#{{rcr|TRTS|G}};">G12</span>/<span style="color:#{{rcr|TRTS|BL}};">BL11</span>
+|-
+|[[Xinbeitou MRT station|Xinbeitou]]||{{lang|zh-tw|新北投}}||Sin-pak-tâu||Sîn-pet-thèu
+|<span style="color:#{{rcr|TRTS|Xinbeitou}};">R22A</span>
+|-
+|[[Xindian MRT station|Xindian]]||{{lang|zh-tw|新店}}||Sin-tiàm||Sîn-tiam
+|<span style="color:#{{rcr|TRTS|G}};">G01</span>
+|-
+|[[Xindian District Office MRT station|Xindian District Office]]||{{lang|zh-tw|新店區公所}}||Sin-tiàm Khu-kong-só͘||Sîn-tiam-khî-kûng-só
+|<span style="color:#{{rcr|TRTS|G}};">G02</span>
+|-
+|[[Xingtian Temple MRT station|Xingtian Temple]]||{{lang|zh-tw|行天宮}}||Hêng-thian-kiong||Hàng-thiên-kiûng
+|<span style="color:#{{rcr|TRTS|O}};">O09</span>
+|-
+|[[Xinhai MRT station|Xinhai]]||{{lang|zh-tw|辛亥}}||Sin-hāi||Sin-hāi
+|<span style="color:#{{rcr|TRTS|BR}};">BR05</span>
+|-
+|[[Xinpu MRT station|Xinpu]]||{{lang|zh-tw|新埔}}||Sin-po͘||Sîn-phû
+|<span style="color:#{{rcr|TRTS|BL}};">BL08</span>
+|-
+|[[Xinyi Anhe MRT station|Xinyi Anhe]]||{{lang|zh-tw|信義安和}}||Sìn-gī An-hô||Sin-ngi Ôn-fò
+|<span style="color:#{{rcr|TRTS|R}};">R04</span>
+|-
+|[[Xinzhuang MRT station|Xinzhuang]]||{{lang|zh-tw|新莊}}||Sin-chng||Sîn-chông
+|<span style="color:#{{rcr|TRTS|O}};">O18</span>
+|-
+|[[Yongan Market MRT station|Yongan Market]]||{{lang|zh-tw|永安市場}}||Éng-an Chhī-tiûⁿ||Yún-ôn Sṳ-chhòng
+|<span style="color:#{{rcr|TRTS|O}};">O03</span>
+|-
+|[[Yongchun MRT station|Yongchun]]||{{lang|zh-tw|永春}}||Éng-chhun||Yún-chhûn
+|<span style="color:#{{rcr|TRTS|BL}};">BL19</span>
+|-
+|[[Yongning MRT station|Yongning]]||{{lang|zh-tw|永寧}}||Éng-lêng||Yún-nèn
+|<span style="color:#{{rcr|TRTS|BL}};">BL02</span>
+|-
+|[[Yuanshan MRT station|Yuanshan]]||{{lang|zh-tw|圓山}}||Îⁿ-soa-á||Yèn-sân
+|<span style="color:#{{rcr|TRTS|R}};">R14</span>
+|-
+|[[Zhishan MRT station|Zhishan]]||{{lang|zh-tw|芝山}}||Chi-san||Chṳ-sân
+|<span style="color:#{{rcr|TRTS|R}};">R17</span>
+|-
+|[[Zhongshan MRT station|Zhongshan]]||{{lang|zh-tw|中山}}||Tiong-san||Chûng-sân
+|<span style="color:#{{rcr|TRTS|R}};">R11</span>/<span style="color:#{{rcr|TRTS|G}};">G14</span>
+|-
+|[[Zhongshan Elementary School MRT station|Zhongshan Elementary School]]||{{lang|zh-tw|中山國小}}||Tiong-san Kok-sió||Chûng-sân Koet-seú
+|<span style="color:#{{rcr|TRTS|O}};">O10</span>
+|-
+|[[Zhongshan Junior High School MRT station|Zhongshan Junior High School]]||{{lang|zh-tw|中山國中}}||Tiong-san Kok-tiong||Chûng-sân Koet-tsûng
+|<span style="color:#{{rcr|TRTS|BR}};">BR12</span>
+|-
+|[[Zhongxiao Dunhua MRT station|Zhongxiao Dunhua]]||{{lang|zh-tw|忠孝敦化}}||Tiong-hàu Tun-hoà||Chûng-hau Tûn-fa
+|<span style="color:#{{rcr|TRTS|BL}};">BL16</span>
+|-
+|[[Zhongxiao Fuxing MRT station|Zhongxiao Fuxing]]||{{lang|zh-tw|忠孝復興}}||Tiong-hàu Ho̍k-heng||Chûng-hau Fu̍k-hîn
+|<span style="color:#{{rcr|TRTS|BR}};">BR10</span>/<span style="color:#{{rcr|TRTS|BL}};">BL15</span>
+|-
+|[[Zhongxiao Xinsheng MRT station|Zhongxiao Xinsheng]]||{{lang|zh-tw|忠孝新生}}||Tiong-hàu Sin-seng||Chûng-hau Sîn-sâng
+|<span style="color:#{{rcr|TRTS|O}};">O07</span>/<span style="color:#{{rcr|TRTS|BL}};">BL14</span>
+|-
+|[[Zhongyi MRT station|Zhongyi]]||{{lang|zh-tw|忠義}}||Tiong-gī||Chûng-ngi
+|<span style="color:#{{rcr|TRTS|R}};">R24</span>
+|-
+|[[Zhuwei MRT station|Zhuwei]]||{{lang|zh-tw|竹圍}}||Tek-ûi-á||Chuk-vì
+|<span style="color:#{{rcr|TRTS|R}};">R26</span>
+|}
+
+"""
+
+# Define regular expressions to extract data
+station_pattern = r'\[\[.*\|([^|]+)\]\]\|\|{{lang\|zh-tw\|([^}]+)}}\|\|'
+
+# Find matches using regular expressions
+matches = re.findall(station_pattern, data)
+
+# print(matches)
+
+# Create a dictionary from the matches
+station_dict = {chinese_name: english_name for english_name, chinese_name in matches}
+
+# Print the dictionary
+print(station_dict)

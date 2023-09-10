@@ -18,21 +18,21 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 import mysql.connector.pooling
 
 # Configuration for the database connection pool
+# db_config_haha = {
+#     "host": "localhost",
+#     "user": "root",
+#     "password": "MyNewPass5!",
+#     "database": "mydb",
+#     "port": 3306,
+# }
+
+# local parameters
 db_config_haha = {
     "host": "localhost",
     "user": "root",
     "password": "MyNewPass5!",
-    "database": "mydb",
-    "port": 3306,
+    "database": "mydb2",
 }
-
-# local parameters
-# db_config_haha = {
-#     "host": "localhost",
-#     "user": "root",
-#     "password": "12345678",
-#     "database": "mydb",
-# }
 
 
 # Create a connection pool
@@ -187,8 +187,10 @@ def get_attractions():
         # print(formatted_results)
         if len(formatted_results) == 13:
             
+            # data back from sql is array. so the last element in array is max id.
+            # arr.pop
             max_id_entry = max(formatted_results, key=lambda x: x["id"])
-            formatted_results.remove(max_id_entry)
+            formatted_results.remove(max_id_entry)  # use pop do not use remove.
             
             response = {
                 "nextPage": page + 1,
