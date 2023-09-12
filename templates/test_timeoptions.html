@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        #fee {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose a Time</h1>
+    <label>
+        <input type="radio" name="time" value="morning" checked onchange="updateFee()"> Morning
+    </label>
+    <label>
+        <input type="radio" name="time" value="evening" onchange="updateFee()"> Evening
+    </label>
+    <div id="fee"></div>
+    <script>
+        function updateFee() {
+            var selectedTime = document.querySelector('input[name="time"]:checked').value;
+            var feeElement = document.getElementById('fee');
+            var fee;
+
+            if (selectedTime === 'morning') {
+                fee = 70;
+            } else if (selectedTime === 'evening') {
+                fee = 80;
+            } else {
+                fee = 'Please select a time';
+            }
+
+            feeElement.textContent = `Fee: USD${fee}`;
+        }
+
+        // Call the function initially to set the default value
+        updateFee();
+    </script>
+</body>
+</html>

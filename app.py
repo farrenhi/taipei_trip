@@ -69,14 +69,14 @@ def index():
 
 
 
-# @app.route("/attraction/<id>")
-# def attraction(id):
-# 	return render_template("attraction.html")
-
-# temporary route for testing
-@app.route("/attraction")
-def attraction():
+@app.route("/attraction/<id>")
+def attraction(id):
 	return render_template("attraction.html")
+
+# # temporary route for testing
+# @app.route("/attractiontest")
+# def attractiontest():
+# 	return render_template("attraction_test.html")
 
 
 @app.route("/booking")

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        label {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #fee {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            border: 2px solid transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Choose a Time</h1>
+    <label>
+        <img src="/static/images/radio_solid.png" alt="Morning" id="morning" onclick="updateFee('morning')">
+    </label>
+    <label>
+        <img src="/static/images/radio_hollow.png" alt="Evening" id="evening" onclick="updateFee('evening')">
+    </label>
+    <div id="fee"></div>
+    <script>
+        function updateFee(selectedTime) {
+            var feeElement = document.getElementById('fee');
+            var fee;
+
+            if (selectedTime === 'morning') {
+                fee = 70;
+                document.getElementById('morning').src = "/static/images/radio_solid.png";
+                document.getElementById('evening').src = "/static/images/radio_hollow.png";
+            } else if (selectedTime === 'evening') {
+                fee = 80;
+                document.getElementById('morning').src = "/static/images/radio_hollow.png";
+                document.getElementById('evening').src = "/static/images/radio_solid.png";
+            } else {
+                fee = 'Please select a time';
+            }
+
+            feeElement.textContent = `Fee: USD${fee}`;
+        }
+
+        // Call the function initially to set the default value
+        updateFee('morning');
+    </script>
+</body>
+
+</html>

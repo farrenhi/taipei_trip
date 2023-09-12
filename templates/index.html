@@ -6,6 +6,7 @@
         <title> Taipei Trip </title>
         <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+        <script src="/static/js/script_index.js"></script>
     </head>
 
     <body class="body" onload="get_data_12()">
@@ -69,7 +70,7 @@
         </div>
 
         <div class="footer">
-            <dp class="footer_text"> COPYRIGHT &copy; 2023 One Day Trip in Taipei </p>
+            <dp class="footer_text"> COPYRIGHT &copy; 2023 Taipei Trip </p>
         </div>
 
         <script>
@@ -256,9 +257,6 @@
 
 
 
-            // "http://127.0.0.1:3000/api/attractions?page=0"
-
-
             function get_data_12() {
                 // Check if data is currently being loaded
                 if (isLoading) return;
@@ -292,6 +290,9 @@
 
                     let attractionElement = document.createElement("div");
                     attractionElement.classList.add("sight");
+
+
+                    attractionElement.setAttribute("id", attraction.id);
                     
 
                     let box1 = document.createElement("div"); // trial  
@@ -467,6 +468,18 @@
                 listContainer.addEventListener('mouseout', handleMouseOut);
                 listContainer.addEventListener('click', handleClick);
             });
+
+
+            
+            document.addEventListener('click', function(event) {
+                let clickedElement = event.target;
+
+                if (clickedElement.classList.contains('sight')) {
+                    let selectedId = clickedElement.id;
+                    console.log("Selected ID:", selectedId);
+                }
+            });
+
 
 
 
