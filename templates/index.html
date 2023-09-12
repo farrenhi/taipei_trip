@@ -64,6 +64,7 @@
             </div>
             
             <div class="part2_twelve" id="part2_twelve"></div>
+            
             <div id="intersection-trigger"></div>
         </div>
 
@@ -112,6 +113,9 @@
             // }
 
             // Function to check if the user has scrolled to the bottom
+            // you could watch 5 people or just one of them
+
+            // entries[0] the first observed object.
             function checkIntersection(entries) {
             if (entries[0].isIntersecting) {
                 if (nextPage != null) {
@@ -134,6 +138,8 @@
 
             const triggerElement = document.getElementById('intersection-trigger');
             observer.observe(triggerElement);
+
+
             //      .to watch (this guy) -> see if fully within the viewport
             // 
 
