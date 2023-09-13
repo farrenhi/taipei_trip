@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .pagination {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .pagination li {
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .pagination img {
+            width: 20px; /* Adjust the width and height as needed */
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .pagination li.active img {
+            /* Add styling for the active dot image if needed */
+        }
+    </style>
+</head>
+<body>
+    <ul class="pagination">
+        <li class="active"><img src="/static/images/dot.png" alt="Page 1"></li>
+        <li><img src="/static/images/dot.png" alt="Page 2"></li>
+        <li><img src="/static/images/dot.png" alt="Page 3"></li>
+        <li><img src="/static/images/dot.png" alt="Page 4"></li>
+        <!-- Add more li elements with img tags for additional dots -->
+    </ul>
+</body>
+</html>

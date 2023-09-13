@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
 
 /* Define a variable for a color */
 :root {
@@ -84,7 +85,7 @@ font-weight: bold;
 }
 
 .nav_bar {
-    display:flex; 
+    display: flex; 
     max-width: 1200px;
     margin: 0 auto;
     padding: 10px 0;
@@ -96,7 +97,7 @@ font-weight: bold;
     /* background-color: gray; */
 }
 
-.right-desktop-menu{
+.right-desktop-menu {
     /* background-color: aquamarine; */
     display:flex; 
     justify-content:flex-end;
@@ -119,7 +120,7 @@ font-weight: bold;
     /* background-color: lightgreen; */
 }
 
-.welcome{
+.welcome {
     display:flex; justify-content: center; align-items: center;
     font-size: 40px;
     font-weight: bold;
@@ -147,7 +148,8 @@ font-weight: bold;
 }
 
 .slogan_flex {
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     /* background-color: black; */
     height: 250px;
 
@@ -251,9 +253,10 @@ font-weight: bold;
     display: none;
 }
 
-.main{
+.main {
     /* background-color: grey; */
     max-width: 1200px;
+
     margin: 0 auto;
 
     padding-top: 40px;
@@ -364,6 +367,17 @@ font-weight: bold;
     width: 265px;
 }
 
+.invisible-link {
+    text-decoration: none;
+    color: transparent; /* Make the link text color transparent */
+    display: block; /* Make the link a block element to cover the entire image */
+    width: 100%; /* Make the link take up the full width of the container */
+    height: 100%; /* Make the link take up the full height of the container */
+    position: absolute; /* Position the link over the image */
+    top: 0;
+    left: 0;
+}
+
 .img_box {
     width: 270px;
     height: 195px;
@@ -389,6 +403,8 @@ font-weight: bold;
 
     overflow: hidden;
     white-space: nowrap;
+
+    text-overflow: ellipsis;
 
     opacity: 0.6;
     background: var(--additional-color-black, #000);
@@ -443,13 +459,6 @@ also the height!
     align-items: center; /* Center vertically */
 }
 
-.footer_text{
-    padding: 5px 0;
-    font-size: 16px;
-    font-family: "Noto Sans TC", sans-serif;
-    font-weight: 700;
-}
-
 
 
 /* attraction html part */
@@ -462,7 +471,7 @@ also the height!
     border-bottom: 2px solid #E8E8E8;
 }
 
-.sight_box_carousel{
+.sight_box_carousel {
     /* background-color: pink; */
     width: 540px;
     height: 400px;
@@ -521,6 +530,40 @@ also the height!
     opacity: 0.75;
 }
 
+
+.overlay_dot {
+    /* background-color: lightcoral; */
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    /* padding-bottom: 10px; */
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: white;
+    margin: 0 6px;
+}
+
+.dot_active {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: black;
+    margin: 0 6px;
+    box-sizing: border-box;
+    border: 1px solid white;
+}
+
+
+
 .left-button {
     background-position: left center;
     background: url('/static/images/arrow_left2.png') no-repeat center center;
@@ -561,6 +604,7 @@ also the height!
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 15px;
+    padding-bottom: 40px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -576,7 +620,7 @@ also the height!
 
 .bookingform_button_text {
     margin-top: 10px;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     background-color: var(--primary1);
     padding: 10px 20px;
     border-radius: 5px;
@@ -623,28 +667,43 @@ also the height!
 
 
 
-@media (max-width:1200px){
+@media (max-width: 1200px) {
+    .main {
+        width: 90%;
+    }
 
-    .promotion{
+    .nav_bar {
+        width: 90%;
+    }
+
+    .slogan_flex {
+        width: 90%;
+    }
+
+
+
+
+    /* .promotion{
         width: calc(50% - 10px);
     }
     .promotion:last-child{
         flex-grow: 1;
-        }
+        } */
 
     
-    .title{
+    /* .title{
         width: calc(25% - 15px);
-    }
+    } */
 }
 
 /* cell phone. smallet is 360px */
-@media (max-width:600px) {
+@media (max-width: 990px) {
     .nav_bar {
         box-sizing: content-box;
         height: 34px;
         padding: 10px 0px;
         display: flex;
+        width: 100%;
         /* justify-content: space-between; */
 
     }
@@ -710,6 +769,61 @@ also the height!
         justify-content: center; /* Add this to center the items horizontally */
         align-items: center; /* Add this to center the items vertically */
     }
+
+
+    .main_attraction {
+        width: 100%;
+        padding-top: 0px;
+
+        /* give it a try */
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .outer_carousel {
+        /* background-color: grey; */
+        display: flex;
+        justify-content: center;
+    }
+
+    .sight_box_carousel {
+        /* border-radius: 0; */
+        /* width: 472.5px; */
+        height: 350px;
+        width: auto;
+    
+        /* object-fit: cover; */
+
+    }
+
+    .sight_box_images {
+        
+    }
+
+    .sight_box_right {
+        margin-left: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 20px;
+        padding-bottom: 40px;
+        
+    }
+
+    .bookingform {
+        padding-bottom: 15px;
+    }
+
+    .info {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .sight_box {
+        flex-direction: column;
+        padding: 0px;
+    }
+
 
     .sight {
         width: 320px;

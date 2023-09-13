@@ -26,7 +26,6 @@
             </div>
         </div>
 
-
         <div class="welcome-banner">
             <div class="slogan_flex">
                 <div class="slogan">
@@ -42,10 +41,6 @@
             </div>
         </div>
 
-
-
-      
-        <!-- main part  -->
         <div class="main">
             <div class="list_bar">
 
@@ -70,7 +65,7 @@
         </div>
 
         <div class="footer">
-            <dp class="footer_text"> COPYRIGHT &copy; 2023 Taipei Trip </p>
+            <dp class="body_body_bold"> COPYRIGHT &copy; 2023 Taipei Trip </p>
         </div>
 
         <script>
@@ -296,11 +291,22 @@
                     
 
                     let box1 = document.createElement("div"); // trial  
-                    box1.classList.add("img_box")
+                    box1.classList.add("img_box");
+
+                    let box3 = document.createElement('a');
+                    box3.classList.add("invisible-link");
+                    box3.href = "/attraction/" + attraction.id;
+                    
+
                     
                     let imageElement = document.createElement("img");
-
                     imageElement.src = getFirstJpgUrl(attraction.images[0]);
+                    box3.appendChild(imageElement);
+
+                    box1.appendChild(box3);
+
+                    
+                    
 
                     let overlayElement = document.createElement("div");
                     overlayElement.classList.add("overlay");
@@ -309,7 +315,7 @@
                     overlayElement.textContent = attraction.name;
 
                     box1.appendChild(overlayElement);  
-                    box1.appendChild(imageElement);     
+                        
                     attractionElement.appendChild(box1);      // trial
 
                     let box2 = document.createElement("div"); // trial 

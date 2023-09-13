@@ -1,7 +1,6 @@
-function load_test() {
-    console.log("js file from static folder");
-}
-
+// function load_test() {
+//     console.log("good load!");
+// }
 
 // Assuming you have an HTML element with class 'carousel' to append the images
 const carousel = document.querySelector('.sight_box_images');
@@ -44,40 +43,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const transport_box = document.querySelector('.transport');
         transport_box.textContent = transport;
 
+        const pagination = document.querySelector('.overlay_dot');
+
         _images.forEach((imageUrl, index) => {
           const imgElement = document.createElement('img');
+          
+          const dot = document.createElement('span');
+          dot.classList.add('dot');
+
           imgElement.src = imageUrl;
           imgElement.alt = `Image ${index + 1}`;
           if (index === 0) { // Set the opacity of the first image to 1
             imgElement.style.opacity = '1';
+            // dot.classList.add('dot_active');
+            dot.style.backgroundColor = "black";
+            dot.style.border = "1px solid white";
           }
           carousel.appendChild(imgElement);
+          pagination.appendChild(dot);
+
         });
       })
-      .catch(error => console.error('Error fetching data:', error));
+      // .catch(error => console.error('Error fetching data:', error));
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        window.location.href = "/"; // Redirect to the specified location
+      });
 });
-
-
-
-  
 
 let currentImage = 0;
 
 document.querySelector('.left-button').addEventListener('click', () => {
     let images = document.querySelectorAll('.sight_box_images img');
-    console.log(currentImage);
+    let dots = document.querySelectorAll('.dot');
     images[currentImage].style.opacity = '0';
+    dots[currentImage].style.backgroundColor = "white";
+    dots[currentImage].style.border = "white";
+    
     currentImage = (currentImage - 1 + images.length) % images.length;
     images[currentImage].style.opacity = '1';
+    dots[currentImage].style.backgroundColor = "black";
+    dots[currentImage].style.border = "1px solid white";
 });
 
 document.querySelector('.right-button').addEventListener('click', () => {
     let images = document.querySelectorAll('.sight_box_images img');
-    console.log(images);
-    console.log(currentImage);
+    let dots = document.querySelectorAll('.dot');
     images[currentImage].style.opacity = '0';
+    dots[currentImage].style.backgroundColor = "white";
+    dots[currentImage].style.border = "white";
+
     currentImage = (currentImage + 1) % images.length;
     images[currentImage].style.opacity = '1';
+    dots[currentImage].style.backgroundColor = "black";
+    dots[currentImage].style.border = "1px solid white";
 });
 
 
