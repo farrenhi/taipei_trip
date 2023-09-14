@@ -31,7 +31,7 @@ db_config_haha = {
     "host": "localhost",
     "user": "root",
     "password": "MyNewPass5!",
-    "database": "mydb",
+    "database": "mydb_eng",
 }
 
 
