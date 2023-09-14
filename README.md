@@ -10,6 +10,6 @@ The demo site link: <br>
 
 http://3.217.150.118:3000/    <br>
 
-Update: September 10, 2023.  <br>
+Update: September 14, 2023.  <br>
 
-Next Update: I will do the translation from chinese to english. This would be related to SQL database modification. <br>
+Next Update: The database is updated! All the info are in English. You could see index page and sight page. <br>
