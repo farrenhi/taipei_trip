@@ -113,13 +113,13 @@ function updateFee(selectedTime) {
       // document.getElementById('morning').src = "/static/images/radio_hollow.png";
       // document.getElementById('evening').src = "/static/images/radio_solid.png";
   } else {
-      fee = 'Please select a time';
+      fee = '';
   }
 
   feeElement.textContent = `Fee: USD ${fee}`;
 }
 
 // Call the function initially to set the default value
-updateFee('morning');
+updateFee();
 
 
