@@ -490,23 +490,20 @@ also the height!
     overflow: hidden;
 }
 
-.sight_box_images img {
-    /* height: 400px; */
-    width: 540px;
-    object-fit: cover;
-  }
 
 .sight_box_images img {
     transition: opacity 0.5s ease-in-out; /* Add a transition for opacity */
     opacity: 0; /* Initially hide all images */
     position: absolute; /* Position images on top of each other */
+
+    width: 540px;
+    object-fit: cover;
+    aspect-ratio: 540/400;
 }
 
 .sight_box_image img:first-child {
     opacity: 1; /* Show the first image initially */
 }
-
-
 
 
 .sight_box_image_overlay {
