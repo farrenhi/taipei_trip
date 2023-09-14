@@ -39,14 +39,28 @@
 
                 <div class="time_box">
                     <div class="bookingform_head body_body_bold"> Time: </div>
-                    <label class="body_body_medium label">
+
+                    <label for="morning-radio"> 
+                        <input type="radio" name="time" class="radio-input body_body_medium" id="morning-radio" onclick="updateFee('morning')"/>
+                        Morning 
+
+                    </label>
+
+                    <label for="afternoon-radio">
+                        <input type="radio" name="time" class="radio-input body_body_medium" id="afternoon-radio" onclick="updateFee('evening')"/> 
+                        Afternoon 
+                    </label>
+
+
+                    <!-- <label class="body_body_medium label">
                         <img src="/static/images/radio_solid.png" alt="Morning" id="morning" onclick="updateFee('morning')">
                         Morning
-                    </label>
-                    <label class="body_body_medium label">
+                    </label> -->
+
+                    <!-- <label class="body_body_medium label">
                         <img src="/static/images/radio_hollow.png" alt="Evening" id="evening" onclick="updateFee('evening')">
                         Afternoon
-                    </label>
+                    </label> -->
                 
                 </div>
 

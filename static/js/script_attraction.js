@@ -106,12 +106,12 @@ function updateFee(selectedTime) {
 
   if (selectedTime === 'morning') {
       fee = 70;
-      document.getElementById('morning').src = "/static/images/radio_solid.png";
-      document.getElementById('evening').src = "/static/images/radio_hollow.png";
+      // document.getElementById('morning').src = "/static/images/radio_solid.png";
+      // document.getElementById('evening').src = "/static/images/radio_hollow.png";
   } else if (selectedTime === 'evening') {
       fee = 80;
-      document.getElementById('morning').src = "/static/images/radio_hollow.png";
-      document.getElementById('evening').src = "/static/images/radio_solid.png";
+      // document.getElementById('morning').src = "/static/images/radio_hollow.png";
+      // document.getElementById('evening').src = "/static/images/radio_solid.png";
   } else {
       fee = 'Please select a time';
   }

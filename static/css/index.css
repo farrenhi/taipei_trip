@@ -474,7 +474,8 @@ also the height!
 .sight_box_carousel {
     /* background-color: pink; */
     width: 540px;
-    height: 400px;
+    /* height: 400px; */
+    aspect-ratio: 540 / 400;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -490,7 +491,7 @@ also the height!
 }
 
 .sight_box_images img {
-    height: 400px;
+    /* height: 400px; */
     width: 540px;
     object-fit: cover;
   }
@@ -642,6 +643,30 @@ also the height!
     /* gap: 10px; */
 }
 
+
+input[type="radio"] {
+    -webkit-appearance: none; /* hide default style for certain browser */
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 50%; 
+    background-color: #FFFFFF; /* unchecked color */
+    cursor: pointer;
+}
+
+.radio-input {
+    width: 22px;
+    height: 22px;
+}
+
+.radio-input:checked {
+background-color: var(--primary1);
+border: 1px solid white; 
+}
+
+
+
+
+
 .time_box label{
     display: flex;
     align-items: center;
@@ -788,18 +813,21 @@ also the height!
     }
 
     .sight_box_carousel {
-        /* border-radius: 0; */
-        /* width: 472.5px; */
-        height: 350px;
-        width: auto;
-    
-        /* object-fit: cover; */
-
+        border-radius: 0;
+        width: 100vw;
+        object-fit: cover;
+        aspect-ratio: 4/3;
     }
 
     .sight_box_images {
         
     }
+
+    .sight_box_images img {
+        /* height: 400px; */ 
+        width: 100%;
+        object-fit: cover;
+      }
 
     .sight_box_right {
         margin-left: 0px;
