@@ -585,7 +585,7 @@ also the height!
 }
 
 .rightbox1 {
-    height: 33px;
+    /* height: 33px; */
     color: var(--secondary1);
 }
 
