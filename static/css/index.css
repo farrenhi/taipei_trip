@@ -624,6 +624,29 @@ also the height!
     border-radius: 5px;
 }
 
+.date_form {
+    padding: 5px 34px 5px 10px;
+    margin-left: 5px;
+}
+
+/* input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+} */
+
+/* for firefox */
+
+/* input[type="date"]::-moz-calendar-picker-indicator {
+    opacity: 0;
+} */
+
+input[type='date'] {
+    /* padding-right: 50px; */
+    /* background-position: 95%; */
+    /* background-image: url("/static/images/data.png"); */
+    /* background-size: 24px 24px; */
+    /* background-repeat: no-repeat; */
+
+}
 
 
 .date_box {
@@ -685,8 +708,13 @@ border: 1px solid white;
     height: 32px;
     align-items: center;
     display: flex;
+    text-align: justify;
 }
 
+.info_description {
+    text-align: justify;
+
+}
 
 
 @media (max-width: 1200px) {
