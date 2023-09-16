@@ -627,26 +627,37 @@ also the height!
 .date_form {
     padding: 5px 34px 5px 10px;
     margin-left: 5px;
+    box-sizing: border-box;
+    width: 193px;
 }
 
-/* input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
-} */
+}
 
 /* for firefox */
 
-/* input[type="date"]::-moz-calendar-picker-indicator {
+input[type="date"]::-moz-calendar-picker-indicator {
     opacity: 0;
+}
+
+/* input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+    margin: 0;
 } */
 
 input[type='date'] {
     /* padding-right: 50px; */
-    /* background-position: 95%; */
-    /* background-image: url("/static/images/data.png"); */
-    /* background-size: 24px 24px; */
-    /* background-repeat: no-repeat; */
-
+    background-position: 95%;
+    background-image: url("/static/images/dateform.png");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    border: 0px;
 }
+
+
 
 
 .date_box {
