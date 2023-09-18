@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="main main_attraction">
+    <div class="sight_box">
+
+        <div class="outer_carousel">
+        <div class="sight_box_carousel">
+            <div class="sight_box_images">
+                
+            </div>
+
+            <div class="sight_box_image_overlay">
+                <button class="left-button"></button>
+                <button class="right-button"></button>
+            </div>
+
+            <div class="overlay_dot">
+            </div>
+
+        </div>
+        </div>
+
+        <div class="sight_box_right">
+            <div class="rightbox1 dialogtitle_h3_bold"></div>
+            <div class="rightbox2 body_body_medium"></div>
+            <div class="bookingform">
+                <div class="bookingform_head body_body_bold"> Make a reservation </div>
+                <div class="bookingform_text content_content_regular"> This will be a one-day excursion around the site, where we'll take you through the city's captivating stories. </div>
+                
+                <div class="date_box">
+                    <div class="bookingform_head body_body_bold"> Date: </div>
+                    <form id="dateForm">
+                        <input type="date" class="body_body_medium date_form" id="targetDate" required>
+                    </form>
+                </div>
+
+                <div class="time_box">
+                    <div class="bookingform_head body_body_bold"> Time: </div>
+
+                    <label for="morning-radio"> 
+                        <input type="radio" name="time" class="radio-input body_body_medium" id="morning-radio" onclick="updateFee('morning')"/>
+                        Morning 
+
+                    </label>
+
+                    <label for="afternoon-radio">
+                        <input type="radio" name="time" class="radio-input body_body_medium" id="afternoon-radio" onclick="updateFee('evening')"/> 
+                        Afternoon 
+                    </label>
+
+
+                    <!-- <label class="body_body_medium label">
+                        <img src="/static/images/radio_solid.png" alt="Morning" id="morning" onclick="updateFee('morning')">
+                        Morning
+                    </label> -->
+
+                    <!-- <label class="body_body_medium label">
+                        <img src="/static/images/radio_hollow.png" alt="Evening" id="evening" onclick="updateFee('evening')">
+                        Afternoon
+                    </label> -->
+                
+                </div>
+
+
+                <div id="fee" class="bookingform_head body_body_bold"> Fee: </div>
+
+                <div class="bookingform_button"> 
+                    <div class="bookingform_button_text button_btn_regular"> Choose </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="info">
+        <div class="info_description content_content_regular"></div>
+        <div class="info_head body_body_bold"> Address: </div>
+        <div class="address content_content_regular"></div>
+        <div class="info_head body_body_bold"> Directions: </div>
+        <div class="transport content_content_regular"></div>
+
+    </div>
+    
+
+    <div id="intersection-trigger"></div>
+</div>
+
+<script src="/static/js/script_attraction.js"></script>
+
+{% endblock %}

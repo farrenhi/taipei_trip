@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invisible Link Example</title>
+    <style>
+        .invisible-link {
+            text-decoration: none;
+            color: transparent; /* Make the link text color transparent */
+            display: block; /* Make the link a block element to cover the entire image */
+            width: 100%; /* Make the link take up the full width of the container */
+            height: 100%; /* Make the link take up the full height of the container */
+            position: absolute; /* Position the link over the image */
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="destination_page.html" class="invisible-link">
+        <img src="/static/images/taipei101.png" alt="Clickable Image">
+    </a>
+
+    <div>test</div>
+    <div>test</div>
+    <div>test</div>
+    <div>test</div>
+    
+</body>
+</html>

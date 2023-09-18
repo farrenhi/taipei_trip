@@ -31,7 +31,7 @@ db_config_haha = {
     "host": "localhost",
     "user": "root",
     "password": "MyNewPass5!",
-    "database": "mydb2",
+    "database": "mydb_eng",
 }
 
 
@@ -66,9 +66,19 @@ def execute_query_read(query, data=None):
 def index():
 	return render_template("index.html")
 
+
+
+
 @app.route("/attraction/<id>")
 def attraction(id):
 	return render_template("attraction.html")
+
+# # temporary route for testing
+# @app.route("/attractiontest")
+# def attractiontest():
+# 	return render_template("attraction_test.html")
+
+
 @app.route("/booking")
 def booking():
 	return render_template("booking.html")

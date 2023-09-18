@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
 
 /* Define a variable for a color */
 :root {
@@ -15,7 +16,6 @@
 
 body {
     margin: 0;
-    font-family: "Noto Sans TC", sans-serif;
 }
 
 .headline_h2_bold {
@@ -51,6 +51,29 @@ body {
     line-height: 13.3px;
 }
 
+.dialogtitle_h3_bold {
+font-family: "Noto Sans TC", sans-serif;
+font-size: 24px;
+line-height: 24px;
+font-weight: bold;
+}
+
+.content_content_regular {
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    color: var(--secondary1);
+}
+
+.button_btn_regular {
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 16px;
+    color: #FFFFFF;
+}
+
 
 .nav_box {
     position: fixed;
@@ -58,11 +81,11 @@ body {
     width: 100%;
     z-index: 100;
     background-color: white;
-
+    border-bottom: 1px solid #E8E8E8;
 }
 
 .nav_bar {
-    display:flex; 
+    display: flex; 
     max-width: 1200px;
     margin: 0 auto;
     padding: 10px 0;
@@ -74,7 +97,7 @@ body {
     /* background-color: gray; */
 }
 
-.right-desktop-menu{
+.right-desktop-menu {
     /* background-color: aquamarine; */
     display:flex; 
     justify-content:flex-end;
@@ -97,7 +120,7 @@ body {
     /* background-color: lightgreen; */
 }
 
-.welcome{
+.welcome {
     display:flex; justify-content: center; align-items: center;
     font-size: 40px;
     font-weight: bold;
@@ -125,7 +148,8 @@ body {
 }
 
 .slogan_flex {
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     /* background-color: black; */
     height: 250px;
 
@@ -229,14 +253,23 @@ body {
     display: none;
 }
 
-.main{
+.main {
     /* background-color: grey; */
     max-width: 1200px;
+
     margin: 0 auto;
 
     padding-top: 40px;
     padding-bottom: 40px; 
     font-family: "Noto Sans TC", sans-serif;
+}
+
+
+.main_attraction{
+    margin-top: 54px;
+    /* background-color: green; */
+    
+
 }
 
 .list_bar {
@@ -334,6 +367,17 @@ body {
     width: 265px;
 }
 
+.invisible-link {
+    text-decoration: none;
+    color: transparent; /* Make the link text color transparent */
+    display: block; /* Make the link a block element to cover the entire image */
+    width: 100%; /* Make the link take up the full width of the container */
+    height: 100%; /* Make the link take up the full height of the container */
+    position: absolute; /* Position the link over the image */
+    top: 0;
+    left: 0;
+}
+
 .img_box {
     width: 270px;
     height: 195px;
@@ -357,10 +401,14 @@ body {
     text-align: left;
     z-index: 1; /* Ensure the overlay is above the image */
 
+    overflow: hidden;
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
     opacity: 0.6;
     background: var(--additional-color-black, #000);
     box-sizing: border-box;
-    padding: 10px;
     height: 40px;
     color: var(--additional-color-white, #FFF);
 }
@@ -411,39 +459,312 @@ also the height!
     align-items: center; /* Center vertically */
 }
 
-.footer_text{
-    padding: 5px 0;
-    font-size: 16px;
-    font-family: "Noto Sans TC", sans-serif;
-    font-weight: 700;
+
+
+/* attraction html part */
+.sight_box {
+    padding: 0 15px;
+    padding-bottom: 40px;
+    /* background-color: #448899; */
+    display: flex;
+    /* flex-direction: row; */
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.sight_box_carousel {
+    /* background-color: pink; */
+    width: 540px;
+    /* height: 400px; */
+    aspect-ratio: 540 / 400;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block; /* Allows overlay to be positioned relative to the container */
+    
+}
+
+.sight_box_images {
+    display: flex;
+    flex-direction: row;
+    width: 540px;
+    overflow: hidden;
+}
+
+
+.sight_box_images img {
+    transition: opacity 0.5s ease-in-out; /* Add a transition for opacity */
+    opacity: 0; /* Initially hide all images */
+    position: absolute; /* Position images on top of each other */
+
+    width: 540px;
+    object-fit: cover;
+    aspect-ratio: 540/400;
+}
+
+.sight_box_image img:first-child {
+    opacity: 1; /* Show the first image initially */
+}
+
+
+.sight_box_image_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-button,
+.right-button {
+
+    width: 36px; /* Adjust this according to your button image size */
+    height: 36px; /* Adjust this according to your button image size */
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    opacity: 0.75;
+}
+
+
+.overlay_dot {
+    /* background-color: lightcoral; */
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    /* padding-bottom: 10px; */
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: white;
+    margin: 0 6px;
+}
+
+.dot_active {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: black;
+    margin: 0 6px;
+    box-sizing: border-box;
+    border: 1px solid white;
+}
+
+
+
+.left-button {
+    background-position: left center;
+    background: url('/static/images/arrow_left2.png') no-repeat center center;
+    background-size: contain;
+}
+
+.right-button {
+    background-position: right center;
+    background: url('/static/images/arrow_right2.png') no-repeat center center;
+    background-size: contain;
+    
+}
+
+
+.sight_box_right{
+    /* background-color: lightblue; */
+    flex: 1;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rightbox1 {
+    /* height: 33px; */
+    color: var(--secondary1);
+}
+
+.rightbox2 {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    color: var(--secondary1);
+}
+
+.bookingform {
+    background-color: var(--secondary3);
+    /* flex-grow: auto; */
+    border-radius: 5px; 
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bookingform_head, .bookingform_text {
+    color: var(--secondary1)
+}
+
+.bookingform_button {
+    display: flex;
+}
+
+.bookingform_button_text {
+    margin-top: 10px;
+    /* margin-bottom: 40px; */
+    background-color: var(--primary1);
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.date_form {
+    padding: 5px 34px 5px 10px;
+    margin-left: 5px;
+    box-sizing: border-box;
+    width: 193px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+/* for firefox */
+
+input[type="date"]::-moz-calendar-picker-indicator {
+    opacity: 0;
+}
+
+/* input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+    margin: 0;
+} */
+
+input[type='date'] {
+    /* padding-right: 50px; */
+    background-position: 95%;
+    background-image: url("/static/images/dateform.png");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    border: 0px;
+}
+
+
+
+
+.date_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.time_box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* gap: 10px; */
+}
+
+
+input[type="radio"] {
+    -webkit-appearance: none; /* hide default style for certain browser */
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 50%; 
+    background-color: #FFFFFF; /* unchecked color */
+    cursor: pointer;
+}
+
+.radio-input {
+    width: 22px;
+    height: 22px;
+}
+
+.radio-input:checked {
+background-color: var(--primary1);
+border: 1px solid white; 
 }
 
 
 
 
 
-@media (max-width:1200px){
+.time_box label{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 10px;
+    margin-right: 8px;
+}
 
-    .promotion{
+.info {
+    /* background-color: pink; */
+    margin-top: 40px;
+    padding: 10px 10px 80px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info_head {
+    margin-top: 20px;
+    height: 32px;
+    align-items: center;
+    display: flex;
+    text-align: justify;
+}
+
+.info_description {
+    text-align: justify;
+
+}
+
+
+@media (max-width: 1200px) {
+    .main {
+        width: 90%;
+    }
+
+    .nav_bar {
+        width: 90%;
+    }
+
+    .slogan_flex {
+        width: 90%;
+    }
+
+
+
+
+    /* .promotion{
         width: calc(50% - 10px);
     }
     .promotion:last-child{
         flex-grow: 1;
-        }
+        } */
 
     
-    .title{
+    /* .title{
         width: calc(25% - 15px);
-    }
+    } */
 }
 
 /* cell phone. smallet is 360px */
-@media (max-width:600px) {
+@media (max-width: 990px) {
     .nav_bar {
         box-sizing: content-box;
         height: 34px;
         padding: 10px 0px;
         display: flex;
+        width: 100%;
         /* justify-content: space-between; */
 
     }
@@ -509,6 +830,64 @@ also the height!
         justify-content: center; /* Add this to center the items horizontally */
         align-items: center; /* Add this to center the items vertically */
     }
+
+
+    .main_attraction {
+        width: 100%;
+        padding-top: 0px;
+
+        /* give it a try */
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .outer_carousel {
+        /* background-color: grey; */
+        display: flex;
+        justify-content: center;
+    }
+
+    .sight_box_carousel {
+        border-radius: 0;
+        width: 100vw;
+        object-fit: cover;
+        aspect-ratio: 4/3;
+    }
+
+    .sight_box_images {
+        
+    }
+
+    .sight_box_images img {
+        /* height: 400px; */ 
+        width: 100%;
+        object-fit: cover;
+      }
+
+    .sight_box_right {
+        margin-left: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 20px;
+        padding-bottom: 40px;
+        
+    }
+
+    .bookingform {
+        padding-bottom: 15px;
+    }
+
+    .info {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .sight_box {
+        flex-direction: column;
+        padding: 0px;
+    }
+
 
     .sight {
         width: 320px;
