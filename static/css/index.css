@@ -25,6 +25,13 @@ body {
     line-height: 34px;
 }
 
+.dialogtitle_h3_bold {
+    font-family:"Noto Sans TC", sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+}
+
 .slogantitle_h1_bold {
     font-family: "Noto Sans TC", sans-serif;
     font-weight: bold;
@@ -79,7 +86,7 @@ font-weight: bold;
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 2;
     background-color: white;
     border-bottom: 1px solid #E8E8E8;
 }
@@ -631,14 +638,17 @@ also the height!
     width: 193px;
 }
 
+/* chrome and safari */
 input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
+    /* opacity: 0; */
 }
 
 /* for firefox */
-
-input[type="date"]::-moz-calendar-picker-indicator {
-    opacity: 0;
+input[type="date"] {
+    /* opacity: 0; */
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
 }
 
 /* input[type="date"]::-webkit-inner-spin-button,
@@ -648,13 +658,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin: 0;
 } */
 
-input[type='date'] {
+input[type='date']::-webkit-calendar-picker-indicator {
     /* padding-right: 50px; */
-    background-position: 95%;
+    /* background-position: 95%;
     background-image: url("/static/images/dateform.png");
     background-size: 24px 24px;
     background-repeat: no-repeat;
-    border: 0px;
+    border: 0px; */
+    /* appearance: none; */
+    /* background: transparent; */
 }
 
 
@@ -726,6 +738,112 @@ border: 1px solid white;
     text-align: justify;
 
 }
+
+
+.transport {
+    text-align: justify;
+}
+
+
+
+.modal {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    z-index: 11;
+    left: 50%;
+    top: 80px; /* Position 80 pixels from the top */
+    transform: translateX(-50%);
+    background-color: #fff;
+
+    width: 340px; 
+    /* height: 275px; */
+    box-shadow: 0px 4px 60px 0px #AAA; 
+    border-radius: 6px; 
+    overflow: hidden;
+}
+
+.decorator_bar {
+    width: 100%;
+    height: 10px;
+
+    background: linear-gradient(270deg, #378 0%, #6AB 100%);
+}
+
+
+
+.modal-content {
+    text-align: center;
+    padding: 15px;
+    /* background-color: grey; */
+}
+
+.dialogtitle {
+    margin-bottom: 15px;
+    color: var(--secondary1);
+}
+
+.modal_form {
+
+}
+
+.modal_input {
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+    height: 47px;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    color: var(--secondary2);
+}
+
+.modal_input::placeholder {
+    color: var(--secondary2);
+}
+
+
+.modal_button {
+    background-color: var(--primary1);
+    color: white;
+    width: 100%;
+    height: 47px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 0px;
+}
+
+.modal_signup{
+    margin-top: 10px;
+    height: 22px;
+    width: 100%;
+    color: var(--secondary2);
+}
+
+.modal_error_box {
+    display: None;
+    color: red;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.mask {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.25;
+}
+
 
 
 @media (max-width: 1200px) {

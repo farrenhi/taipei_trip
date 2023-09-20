@@ -6,7 +6,7 @@
         <title> Taipei Trip </title>
         <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
-        <script src="/static/js/script_index.js"></script>
+        
     </head>
 
     <body class="body" onload="get_data_12()">
@@ -17,7 +17,7 @@
 
                     <div class="right-desktop-menu">
                         <div class="item1 body_body_medium"> Reserve </div>
-                        <div class="item2 body_body_medium"> Login </div>
+                        <div class="item2 body_body_medium" id="loginButton"> Login </div>
                     </div>
 
                     <div class="mobile-menu">
@@ -63,6 +63,23 @@
             
             <div id="intersection-trigger"></div>
         </div>
+
+        <div id="myModal" class="modal">
+            <div class="decorator_bar"></div>
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 class="dialogtitle_h3_bold dialogtitle">Login</h2>
+                <form class="modal_form" id="modal_form">
+                    <input type="text" id="email" placeholder="Email" required class="modal_input body_body_medium">
+                    <input type="password" id="password" placeholder="Password" required class="modal_input body_body_medium">
+                    <button type="submit" class="modal_button button_btn_regular">Login</button>
+                </form>
+                <div class="modal_signup body_body_medium">Not on Taipei Trip yet? Sign up</div>
+                <div class="modal_error_box body_body_medium"></div>
+            </div>
+        </div>
+    
+        <div id="mask" class="mask"></div>
 
         <div class="footer">
             <dp class="body_body_bold"> COPYRIGHT &copy; 2023 Taipei Trip </p>
@@ -382,9 +399,7 @@
                 const searchButton = document.querySelector('.search-button');
                 const dataContainer = document.getElementById('part2_twelve');
 
-
                 // searchInput.addEventListener('input', performSearch);
-
                 
                 searchButton.addEventListener('click', performSearch);
                 
@@ -486,9 +501,63 @@
                 }
             });
 
+            document.getElementById('loginButton').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'flex';
+            document.getElementById('mask').style.display = 'block';
+            // document.querySelector('.nav_box').style.backgroundColor = 'black';
+            // document.querySelector('.nav_box').style.opacity = 0.25;
+
+            });
+
+            document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+            document.getElementById('mask').style.display = 'none';
+            });
+
+            // Login process
+            document.getElementById('modal_form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let email = document.getElementById('email').value;
+                let password = document.getElementById('password').value;
+
+                let data = {
+                    "email": email,
+                    "password": password,
+                };
+
+                // console.log("check point on javascript 1");
+
+                fetch('/api/user/auth', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetch Success Yes:', data); 
+                    if (data['token']) {
+                        localStorage.setItem('jwtToken', data['token']);
+                        // redirect the user to other place
+                        location.reload();
+                    } else {
+                        console.log(data['message']);
+                        const modalErrorBox = document.querySelector('.modal_error_box');
+                        modalErrorBox.style.display = 'block';
+                        modalErrorBox.textContent = data['message'];
+                    }
+                    
+                })
+                .catch((error) => {
+                    console.error('Fetch Error Error:', error);
+                });
+            });
 
 
 
         </script>
+        <script src="/static/js/script_index.js"></script>
     </body>
 </html>

@@ -6,7 +6,6 @@
         <title> Taipei Trip </title>
         <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
-        <script src="/static/js/script_base.js"></script>
     </head>
 
     <body class="body" onload="load_test()">
@@ -27,14 +26,12 @@
             </div>
         </div>
 
-        {%block content%}{%endblock%}
-
-        
-
-
+        {% block content %}
+        {% endblock %}
 
         <div class="footer">
             <dp class="footer_text"> COPYRIGHT &copy; 2023 Taipei Trip </p>
         </div>
+        <script src="/static/js/script_base.js"></script>
     </body>
 </html>
