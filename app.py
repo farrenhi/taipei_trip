@@ -291,8 +291,8 @@ def signup():
     query = "SELECT * FROM member WHERE email = (%s)"
     data = (email,)
     results = execute_query_read(query, data)
-    
-    if results is not None:
+
+    if len(results) == 1: # ok so how to set up that data is None? 
         response = {
             "error": True,
             "message": "This email was registered before."
@@ -368,6 +368,7 @@ def signin():
 def signin_get():
     # Get the token from the Authorization header
     auth_header = request.headers.get('Authorization')
+
     if not auth_header:
         return jsonify({"error": "Authorization header is missing"}), 401  # Unauthorized
 
@@ -379,7 +380,7 @@ def signin_get():
     try:
         # Verify and decode the token
         payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-
+        # print(payload)
         # Token is valid, user is logged in
         return jsonify({"data": payload}), 200
     except jwt.ExpiredSignatureError:

@@ -102,6 +102,7 @@ font-weight: bold;
     padding: 0px 10px;
     color: var(--primary1);
     /* background-color: gray; */
+    cursor: pointer;
 }
 
 .right-desktop-menu {
@@ -118,13 +119,22 @@ font-weight: bold;
     padding: 10px;
     color: var(--secondary1);
     /* background-color: lightgreen; */
+    cursor: pointer;
 }
 
 .item2 {
     /* margin-right:15px; */
+    /* background-color: lightgreen; */
     padding: 10px;
     color: var(--secondary1);
-    /* background-color: lightgreen; */
+    cursor: pointer;
+}
+
+.item_logout {
+    display: none;
+    padding: 10px;
+    color: var(--secondary1);
+    cursor: pointer;
 }
 
 .welcome {
@@ -755,9 +765,7 @@ border: 1px solid white;
     top: 80px; /* Position 80 pixels from the top */
     transform: translateX(-50%);
     background-color: #fff;
-
     width: 340px; 
-    /* height: 275px; */
     box-shadow: 0px 4px 60px 0px #AAA; 
     border-radius: 6px; 
     overflow: hidden;
@@ -811,14 +819,26 @@ border: 1px solid white;
     padding: 10px 20px;
     border-radius: 5px;
     border: 0px;
+    cursor: pointer;
 }
 
-.modal_signup{
+.link_signup {
     margin-top: 10px;
     height: 22px;
     width: 100%;
     color: var(--secondary2);
+    cursor: pointer;
 }
+
+.link_login {
+    margin-top: 10px;
+    height: 22px;
+    width: 100%;
+    color: var(--secondary2);
+    cursor: pointer;
+}
+
+
 
 .modal_error_box {
     display: None;
@@ -827,9 +847,10 @@ border: 1px solid white;
 
 .close {
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 17px;
+    top: 17px;
     cursor: pointer;
+    font-size: 30px;
 }
 
 .mask {
