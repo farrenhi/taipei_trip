@@ -1,4 +1,6 @@
 from flask import *
+import jwt
+from datetime import datetime, timedelta
 app=Flask(__name__)
 
 
@@ -31,14 +33,29 @@ db_config_haha = {
     "host": "localhost",
     "user": "root",
     "password": "MyNewPass5!",
-    "database": "mydb_eng",
+    "database": "mydb",
 }
 
 
 # Create a connection pool
 connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **db_config_haha)
 
-# Function to execute a query using a connection from the pool
+# Functions to execute a query using a connection from the pool
+def execute_query_create(query, data=None):
+    connection = connection_pool.get_connection()
+    cursor = connection.cursor(dictionary=True)
+    try:
+        cursor.execute(query, data)
+        connection.commit()
+        return True
+    except Exception as e:
+        connection.rollback()
+        print("Error:", e)
+        return False
+    finally:
+        cursor.close()
+        connection.close()
+
 def execute_query_read(query, data=None):
     # To request a connection from the pool, use its get_connection() method: 
     connection = connection_pool.get_connection() 
@@ -66,18 +83,9 @@ def execute_query_read(query, data=None):
 def index():
 	return render_template("index.html")
 
-
-
-
 @app.route("/attraction/<id>")
 def attraction(id):
 	return render_template("attraction.html")
-
-# # temporary route for testing
-# @app.route("/attractiontest")
-# def attractiontest():
-# 	return render_template("attraction_test.html")
-
 
 @app.route("/booking")
 def booking():
@@ -271,5 +279,115 @@ def get_attraction(attractionId):
             "data": formatted_attraction[0]
         }
         return jsonify(response)
+
+
+@app.route('/api/user', methods=['POST'])
+def signup():
+    data_json = request.get_json()
+    name = data_json['name']
+    email = data_json['email']
+    password = data_json['password']
+       
+    query = "SELECT * FROM member WHERE email = (%s)"
+    data = (email,)
+    results = execute_query_read(query, data)
+
+    if len(results) == 1: # ok so how to set up that data is None? 
+        response = {
+            "error": True,
+            "message": "This email was registered before."
+        }
+        return jsonify(response), 400
+    else:
+        query = "INSERT INTO member(name, email, password) VALUES(%s, %s, %s);"
+        data = (name, email, password)
+        if execute_query_create(query, data):
+            response = {
+                "ok": True
+            }
+            return jsonify(response), 200
+        else:
+            response = {
+                "error": True,
+                "message": "SQL database internal issue"
+            }
+            return jsonify(response), 500
+
+@app.route('/api/user/auth', methods=['PUT'])
+def signin():
+    data_json = request.get_json()
+    email = data_json['email']
+    password = data_json['password']
+    
+    query = "SELECT * FROM member WHERE email = (%s)"
+    data = (email,)
+    
+    results = execute_query_read(query, data)
+    
+    # print("check point 1")
+    # print(results)
+    
+    if results == "error":
+        response = {
+            "error": True,
+            "message": "Database has an internal issue."
+        }
+        return jsonify(response), 500
+    else:
+        password_from_sql = results[0]["password"]
+        results = results[0]
+    
+    if password == password_from_sql:
+        payload_data = {
+            "id": results['id'],
+            "name": results['name'],
+            "email": results['email'],
+            "password": results['password'],
+            "exp": datetime.utcnow() + timedelta(days=7)
+        }
+        
+        expiration_time = timedelta(days=7)
+        
+        token = jwt.encode(
+            payload = payload_data,
+            key = 'secret',
+            algorithm="HS256",
+        )
+        
+        return jsonify({"token": token}), 200
+    else:
+        response = {
+            "error": True,
+            "message": "Wrong password!"
+        }
+        return jsonify(response), 400
+        
+        
+
+@app.route('/api/user/auth', methods=['GET'])
+def signin_get():
+    # Get the token from the Authorization header
+    auth_header = request.headers.get('Authorization')
+
+    if not auth_header:
+        return jsonify({"error": "Authorization header is missing"}), 401  # Unauthorized
+
+    # Check if the header starts with 'Bearer'
+    token_type, token = auth_header.split()
+    if token_type != 'Bearer':
+        return jsonify({"error": "Invalid token type"}), 401  # Unauthorized
+
+    try:
+        # Verify and decode the token
+        payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        # print(payload)
+        # Token is valid, user is logged in
+        return jsonify({"data": payload}), 200
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token has expired"}), 401  # Unauthorized
+    except jwt.DecodeError:
+        return jsonify({"error": "Invalid token"}), 401  # Unauthorized
+
+
     
 app.run(host="0.0.0.0", port=3000, debug=True)

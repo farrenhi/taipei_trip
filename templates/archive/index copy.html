@@ -1,10 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title> Taipei Trip </title>
+        <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+        
+    </head>
 
+    <body class="body" onload="get_data_12()">
 
-// retrieve
-// let token = localStorage.getItem('jwtToken');
+        <div class="nav_box">
+            <div class="nav_bar">
+                    <div class="left headline_h2_bold"> Taipei Trip </div>
 
+                    <div class="right-desktop-menu">
+                        <div class="item1 body_body_medium"> Reserve </div>
+                        <div class="item2 body_body_medium" id="loginButton"> Login </div>
+                    </div>
 
+                    <div class="mobile-menu">
+                        <img src="burger-menu-svgrepo-com.png" width="30" height="30"/>
+                    </div>
+            </div>
+        </div>
 
+        <div class="welcome-banner">
+            <div class="slogan_flex">
+                <div class="slogan">
+                    <div class="welcome_text1 slogantitle_h1_bold"> Enjoy day trip in Taipei </div>
+                    <div class="welcome_text2 body_body_bold"> An immersive trip to explore the city</div>
+                    <div class="search_bar">
+                        <input type="text" placeholder="Search a sight" class="search-input body_body_bold" id="search-input">
+                        <div class="search-button">
+                            <img src="/static/images/search_icon.png" alt="Search Icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="list_bar">
+
+                <div class="list_bar_left_container" id="left_arrow">
+                    <img src="/static/images/arrow_left.png">
+                </div>
+
+                <div class="list_bar_container body_body_medium">
+                    <div class="list" id="container" >
+
+                    </div>                  
+                </div>
+
+                <div class="list_bar_right_container" id="right_arrow">
+                    <img src="/static/images/arrow_right.png">
+                </div>
+            </div>
+            
+            <div class="part2_twelve" id="part2_twelve"></div>
+            
+            <div id="intersection-trigger"></div>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="decorator_bar"></div>
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 class="dialogtitle_h3_bold dialogtitle">Login</h2>
+                <form class="modal_form" id="modal_form">
+                    <input type="text" id="email" placeholder="Email" required class="modal_input body_body_medium">
+                    <input type="password" id="password" placeholder="Password" required class="modal_input body_body_medium">
+                    <button type="submit" class="modal_button button_btn_regular">Login</button>
+                </form>
+                <div class="modal_signup body_body_medium">Not on Taipei Trip yet? Sign up</div>
+                <div class="modal_error_box body_body_medium"></div>
+            </div>
+        </div>
+    
+        <div id="mask" class="mask"></div>
+
+        <div class="footer">
+            <dp class="body_body_bold"> COPYRIGHT &copy; 2023 Taipei Trip </p>
+        </div>
+
+        <script>
             // Initialize some variables
             let nextPage = 0;
 
@@ -390,10 +471,6 @@
                     if (target.tagName === 'DIV' && target.parentElement.classList.contains('list')) {
                         
                         userInput = target.textContent; // Get the text content of the clicked div
-
-                        // input the sight name into search bar:
-                        const searchInput = document.getElementById('search-input');
-                        searchInput.value = target.textContent;
                         
                         if (userInput !== userInput_previous) {
                             nextPage = 0
@@ -424,3 +501,63 @@
                 }
             });
 
+            document.getElementById('loginButton').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'flex';
+            document.getElementById('mask').style.display = 'block';
+            // document.querySelector('.nav_box').style.backgroundColor = 'black';
+            // document.querySelector('.nav_box').style.opacity = 0.25;
+
+            });
+
+            document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+            document.getElementById('mask').style.display = 'none';
+            });
+
+            // Login process
+            document.getElementById('modal_form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let email = document.getElementById('email').value;
+                let password = document.getElementById('password').value;
+
+                let data = {
+                    "email": email,
+                    "password": password,
+                };
+
+                // console.log("check point on javascript 1");
+
+                fetch('/api/user/auth', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetch Success Yes:', data); 
+                    if (data['token']) {
+                        localStorage.setItem('jwtToken', data['token']);
+                        // redirect the user to other place
+                        location.reload();
+                    } else {
+                        console.log(data['message']);
+                        const modalErrorBox = document.querySelector('.modal_error_box');
+                        modalErrorBox.style.display = 'block';
+                        modalErrorBox.textContent = data['message'];
+                    }
+                    
+                })
+                .catch((error) => {
+                    console.error('Fetch Error Error:', error);
+                });
+            });
+
+
+
+        </script>
+        <script src="/static/js/script_index.js"></script>
+    </body>
+</html>
