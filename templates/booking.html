@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="main main_booking">
+    <div class="headline button_btn_bold"> Hello XXX, your booking schedule is as follows. </div>
+    <div class="sight_book_info"></div>
+
+    <div class="contact_form_outer">
+        <div class="contact_form">
+            <div class="button_btn_bold contact_title"> Your Contact</div>
+            <div class="body_body_medium"> 
+                <span> Name: </span> 
+                <input type="text" id="contact_name" required class="contact_input_box body_body_medium">
+            </div>
+            <div class="body_body_medium"> 
+                <span> Email: </span> 
+                <input type="text" id="contact_email" required class="contact_input_box body_body_medium">
+            </div>
+            <div class="body_body_medium">  
+                <span> Mobile: </span> 
+                <input type="text" id="contact_mobile" required class="contact_input_box body_body_medium">
+            </div>
+            <div class="body_body_bold contact_warn"> Kindly ensure your phone is accessible, arrive promptly, and our guide will call your number. </div>
+        </div>
+    </div>
+
+    <div class="payment">
+        <div class="button_btn_bold contact_title"> Credit Card Payment </div>
+        <div class="body_body_medium"> 
+            <span> Credit Card Number: </span> 
+            <input type="text" id="payment_cardnumber" placeholder="**** **** **** ****" required class="contact_input_box body_body_medium">
+        </div>
+        <div class="body_body_medium"> 
+            <span> Expiration Date: </span> 
+            <input type="text" id="payment_expdate" placeholder="MM / YY" required class="contact_input_box body_body_medium">
+        </div>
+        <div class="body_body_medium">  
+            <span> Security Code: </span> 
+            <input type="text" id="payment_code" placeholder="CVV or CVC" required class="contact_input_box body_body_medium">
+        </div>
+
+    </div>
+
+    <div class="confirm_box_outer">
+        <div class="confirm_box">
+            <div class="confirm_box_price body_body_bold"> Price: </div>
+            <div class="confirm_box_button">
+                <button type="submit" class="confirm_box_button2 button_btn_regular"> Place your Order </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascript %}
+<script src="/static/js/script_booking"></script>
+{% endblock %}

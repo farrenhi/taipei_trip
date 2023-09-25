@@ -2,6 +2,7 @@ from flask import *
 import jwt
 from datetime import datetime, timedelta
 app=Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 
 app = Flask(
@@ -90,6 +91,7 @@ def attraction(id):
 @app.route("/booking")
 def booking():
 	return render_template("booking.html")
+
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
@@ -371,12 +373,10 @@ def signin_get():
 
     if not auth_header:
         return jsonify({"error": "Authorization header is missing"}), 401  # Unauthorized
-
     # Check if the header starts with 'Bearer'
     token_type, token = auth_header.split()
     if token_type != 'Bearer':
         return jsonify({"error": "Invalid token type"}), 401  # Unauthorized
-
     try:
         # Verify and decode the token
         payload = jwt.decode(token, 'secret', algorithms=["HS256"])
@@ -388,6 +388,109 @@ def signin_get():
     except jwt.DecodeError:
         return jsonify({"error": "Invalid token"}), 401  # Unauthorized
 
+def auth_check(item):
+    if not item:
+        return False
+    
+    token_type, token = item.split()
+    if token_type != 'Bearer':
+        return False
+    try:
+        payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        return True
+    except jwt.ExpiredSignatureError:
+        return False
+    except jwt.DecodeError:
+        return False
+    
+@app.route('/api/booking', methods=['POST'])
+def booking_post():
+    auth_header = request.headers.get('Authorization')
+    
+    response ={
+        "error": True,
+        "message": "to be continued"
+    }
+    
+    if not auth_check(auth_header):
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+    
+    try:
+        data_json = request.get_json()
+        session['attractionId'] = data_json['attractionId']
+        session['date'] = data_json['date']
+        session['time'] = data_json['time']
+        session['price'] = data_json['price']
+        response = {"ok": True}
+        return jsonify(response), 200
+    except KeyError as e:
+        error_message = f'Missing key in request data: {e}'
+        response["message"] = error_message
+        return jsonify(response), 400
+    except Exception as e:
+        error_message = f'An error occurred: {e}'
+        response["message"] = error_message
+        return jsonify(response), 500
+
+
+@app.route('/api/booking', methods=['GET'])
+def booking_get():
+    auth_header = request.headers.get('Authorization')
+    
+    if not auth_check(auth_header):
+        response = {
+            "error": True,
+            "message": "to be continued"
+        }
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+    
+    sight_id = session.get("attractionId")
+    if sight_id:
+        data_backend = get_attraction_lookup(sight_id)
+    else:
+        data_backend["data"] = None
+    response = {
+        "data":{data_backend["data"]},
+        "date": session.get("date"),
+        "time": session.get("time"),
+        "price": session.get("price"),   
+    }
+    return jsonify(response), 200
+    
+def get_attraction_lookup(attractionId):
+    # Prepare the SQL query to fetch attraction data by ID
+    query = """
+        SELECT
+            s.id,
+            s.name,
+            c.name AS category,
+            s.description,
+            s.address,
+            s.transport,
+            m.name AS mrt,
+            s.lat,
+            s.lng,
+            GROUP_CONCAT(f.url) AS images
+        FROM
+            sight s
+        JOIN
+            category c ON s.category_id = c.id
+        JOIN
+            mrt m ON s.mrt_id = m.id
+        LEFT JOIN
+            file f ON s.id = f.sight_id
+        WHERE
+            s.id = %s
+        GROUP BY
+            s.id
+    """
+    data = (attractionId,)
+    # Fetch attraction data from the database
+    results = execute_query_read(query, data)
+    return results
 
     
+
 app.run(host="0.0.0.0", port=3000, debug=True)

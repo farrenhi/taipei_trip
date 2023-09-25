@@ -73,6 +73,13 @@ font-weight: bold;
     color: var(--secondary1);
 }
 
+.button_btn_bold {
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 16px;
+}
+
 .button_btn_regular {
     font-family: "Noto Sans TC", sans-serif;
     font-weight: 400;
@@ -865,7 +872,124 @@ border: 1px solid white;
     opacity: 0.25;
 }
 
+.main_booking {
+    margin-top: 54px;
+    /* background-color: green; */
 
+}
+
+.headline {
+    color: var(--secondary1);
+    /* height: 27px; */
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin: 0 auto;
+    width: calc((1000 / 1200) * 100%);
+
+    background-color: lightcyan;
+}
+
+.sight_book_info {
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    height: 200px;
+    width: calc((980 / 1200) * 100%);
+    background-color: lightcoral;
+    box-sizing: content-box;
+
+    /* border-bottom: 1px solid #E8E8E8; */
+}
+
+
+.contact_form_outer {
+    /* background-color: lightskyblue; */
+    padding: 40px 0;
+    border-top: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+
+
+.contact_title {
+    color: var(--secondary1);
+    padding: 4px 0;
+    margin-bottom: 5px;
+}
+
+.contact_warn {
+    margin-top: 15px;
+    color: var(--secondary1);
+}
+
+.contact_form {
+    /* background-color: lightseagreen; */
+    width: calc((980 / 1200) * 100%);
+    margin: 0 auto;
+    /* height: 100px; */
+    display: flex;
+    flex-direction: column;
+}
+
+/* .contact_input {
+    display: flex;
+    align-items: center;
+} */
+
+.contact_input_box {
+    width: 180px;
+    height: 18px;
+    padding: 10px;
+    box-sizing: content-box;
+    border-radius: 5px; 
+    border: 1px solid #E8E8E8;
+    margin-top: 15px; 
+    margin-left: 5px;
+}
+
+.payment {
+    margin: 40px auto;
+    height: 200px;
+    width: calc((980 / 1200) * 100%);
+    /* background-color: lightcoral; */
+    box-sizing: content-box;
+}
+
+.confirm_box_outer {
+    /* background-color: lightskyblue; */
+    padding: 40px 0;
+    padding-bottom: 0px;
+    border-top: 1px solid #E8E8E8;
+}
+
+.confirm_box {
+    /* background-color: lightseagreen; */
+    width: calc((980 / 1200) * 100%);
+    margin: 0 auto;
+    /* height: 100px; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end; */
+    align-items: flex-end;
+}
+
+.confirm_box_price {
+    margin-bottom: 22px;
+}
+
+.confirm_box_button {
+}
+
+.confirm_box_button2 {
+    background-color: var(--primary1);
+    color: white;
+    height: 47px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 0px;
+    cursor: pointer;
+    margin-bottom: 22px;
+}
 
 @media (max-width: 1200px) {
     .main {
