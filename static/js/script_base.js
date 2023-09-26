@@ -32,6 +32,8 @@ let force_login = false;
 // }
 
 
+const info_login = {};
+
 async function login_check() {
     const token = localStorage.getItem('jwtToken');
 
@@ -46,6 +48,7 @@ async function login_check() {
             });
 
             const data = await response.json();
+            info_login['name'] = data['data']['name'];
 
             if (data["data"]) {
                 document.getElementById('loginButton').style.display = 'none';
@@ -71,7 +74,6 @@ document.querySelector('.item1').addEventListener('click', () => {
     // login_check();
     login_check().then(token => {
       if (token) {
-          console.log("print reserve button login check");
           window.location.href = "/booking";
       }
     });

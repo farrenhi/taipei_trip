@@ -81,14 +81,9 @@ document.querySelector('.bookingform_button_text').addEventListener('click', () 
   .then(token => {
     if (token) {
         book_trip(token);
-        console.log("print yes we have token in front end");
     }})
-  .then(
-    window.location.href = "/booking"
-  )
-
-  // if login_check is passed, meaning the user is logged. I would like to execute this function:  performSecondFetch(token);
-
+  // .then(() => (window.location.href = "/booking"))
+  // Q: how to put it here?
 });
 
 let data = {"attractionId": attractionId,}
@@ -96,8 +91,6 @@ let data = {"attractionId": attractionId,}
 function book_trip(token) {
 
   data['date'] = document.getElementById('targetDate').value;
-
-  console.log(data);
 
   fetch('/api/booking', {
       method: 'POST',
@@ -111,6 +104,7 @@ function book_trip(token) {
   .then(bookingData => {
       // Handle the data from the second fetch here
       console.log('Booking Data:', bookingData);
+      window.location.href = "/booking";
   })
   .catch((bookingError) => {
       console.error('Booking Fetch Error:', bookingError);

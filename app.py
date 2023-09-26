@@ -422,13 +422,14 @@ def booking_post():
     try:
         data_json = request.get_json()
         session.setdefault('cart', {})
+        
         cart = session['cart']
         cart['attractionId'] = data_json['attractionId']
         cart['date'] = data_json['date']
         cart['time'] = data_json['time']
         cart['price'] = data_json['price']
         session['cart'] = cart
-        print("session['cart']: ",session['cart'])
+        print("session['cart']: ", session['cart'])
         response = {"ok": True}
         return jsonify(response), 200
     except KeyError as e:
@@ -452,23 +453,24 @@ def booking_get():
         }
         response["message"] = "Login Status Check Failure"
         return jsonify(response), 403
-    print(session)
     
-    sight_id = session['cart']['attractionId']
-
-    if sight_id:
+    # print(session)
+    
+    # sight_id = session['cart']['attractionId']
+    # if session['cart']['attractionId']:
+    if 'cart' in session and 'attractionId' in session['cart'] and session['cart']['attractionId']:
+        sight_id = session['cart']['attractionId']
         data_backend = get_attraction_lookup(sight_id)
-    else:
-        data_backend["data"] = None
-    
-    
-    response = {
+        response = {
         "attraction": data_backend[0],
         "date": session['cart'].get("date"),
         "time": session['cart'].get("time"),
         "price": session['cart'].get("price"),   
-    }
-    print(response)
+        }
+    else:
+        response = None
+
+    # print(response)
     return jsonify({"data": response}), 200
     
 def get_attraction_lookup(attractionId):
@@ -504,6 +506,34 @@ def get_attraction_lookup(attractionId):
                                     # c.name AS category,
                                     # GROUP_CONCAT(f.url) AS images
 
+@app.route('/api/booking', methods=['DELETE'])
+def booking_delete():
+    auth_header = request.headers.get('Authorization')
     
+    if not auth_check(auth_header):
+        response = {
+            "error": True,
+            "message": "to be continued"
+        }
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+    session.clear()
+    print(session)
+    
+    # sight_id = session['cart']['attractionId']
+
+    # if sight_id:
+    #     data_backend = get_attraction_lookup(sight_id)
+    # else:
+    #     data_backend["data"] = None
+    
+    # response = {
+    #     "attraction": data_backend[0],
+    #     "date": session['cart'].get("date"),
+    #     "time": session['cart'].get("time"),
+    #     "price": session['cart'].get("price"),   
+    # }
+
+    return jsonify({"ok": True}), 200
 
 app.run(host="0.0.0.0", port=3000, debug=True)

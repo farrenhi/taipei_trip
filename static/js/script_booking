@@ -5,16 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = "/";
         } else {
             return get_trip(token);
-        }
+        };
+        console.log(token);
+
     }).then( 
         (data) => {
+            const login_name = document.querySelector('.headline');
+            login_name.textContent = `Hello ${info_login['name']}, your booking schedule is as follows.`;
 
+        if (data['data']) {
             const carousel = document.querySelector('.sight_box_booking_carousel');
             const imgElement = document.createElement('img');
             imgElement.src = data['data']['attraction']['image'];
             carousel.appendChild(imgElement);
 
-            console.log(data);
             let sightname = document.getElementById('booking_sight_name');
             sightname.textContent = `Taipei Trip: ${data['data']['attraction']['name']}`;
 
@@ -33,6 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let address = document.getElementById('booking_address');
             address.textContent = `Address: ${data['data']['attraction']['address']}`;
+        } else {
+            document.querySelector('.sight_book_info').style.display = 'none';
+            document.querySelector('.contact_form_outer').style.display = 'none';
+            document.querySelector('.payment').style.display = 'none';
+            document.querySelector('.confirm_box_outer').style.display = 'none';
+
+        }
 
         }
     );
@@ -72,3 +83,31 @@ function get_trip(token) {
 //         console.error('Booking Fetch Error:', bookingError);
 //     });
 //   }
+
+
+document.querySelector('.booking_delete').addEventListener('click', () => {
+    const token = localStorage.getItem('jwtToken');
+      if (token) {
+        delete_trip(token);
+      };
+  });
+
+
+  function delete_trip(token) {  
+    return fetch('/api/booking', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    })
+    .then(bookingResponse => bookingResponse.json())
+    .then(bookingData => {
+        console.log('Booking Data:', bookingData);
+        location.reload();
+
+    })
+    .catch((bookingError) => {
+        console.error('Booking Fetch Error:', bookingError);
+    });
+  }

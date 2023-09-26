@@ -289,7 +289,7 @@ font-weight: bold;
 }
 
 
-.main_attraction{
+.main_attraction {
     margin-top: 54px;
     /* background-color: green; */
     
@@ -481,6 +481,7 @@ also the height!
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
+    flex: 1;
 }
 
 
@@ -876,6 +877,7 @@ border: 1px solid white;
 .main_booking {
     margin-top: 54px;
     /* background-color: green; */
+    width: 100%;
 
 }
 
@@ -938,6 +940,16 @@ border: 1px solid white;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    position: relative;
+}
+
+.booking_delete img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
 }
 
 .booking_head {
