@@ -38,10 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
             let address = document.getElementById('booking_address');
             address.textContent = `Address: ${data['data']['attraction']['address']}`;
         } else {
+            document.querySelector('.no_booking').style.display = 'block';
             document.querySelector('.sight_book_info').style.display = 'none';
             document.querySelector('.contact_form_outer').style.display = 'none';
             document.querySelector('.payment').style.display = 'none';
             document.querySelector('.confirm_box_outer').style.display = 'none';
+            document.querySelector('.footer').style.alignItems = 'flex-start';
 
         }
 
