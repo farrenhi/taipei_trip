@@ -76,19 +76,36 @@ let currentImage = 0;
 
 document.querySelector('.bookingform_button_text').addEventListener('click', () => {
   force_login = true;
-  login_check();
+  // login_check();
+  login_check()
+  .then(token => {
+    if (token) {
+        book_trip(token);
+        console.log("print yes we have token in front end");
+    }})
+  .then(
+    window.location.href = "/booking"
+  )
 
   // if login_check is passed, meaning the user is logged. I would like to execute this function:  performSecondFetch(token);
 
 });
 
-function performSecondFetch(token) {
+let data = {"attractionId": attractionId,}
+
+function book_trip(token) {
+
+  data['date'] = document.getElementById('targetDate').value;
+
+  console.log(data);
+
   fetch('/api/booking', {
-      method: 'GET',
+      method: 'POST',
       headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
-      }
+      },
+      body: JSON.stringify(data)
   })
   .then(bookingResponse => bookingResponse.json())
   .then(bookingData => {
@@ -131,17 +148,20 @@ function updateFee(selectedTime) {
   var feeElement = document.getElementById('fee');
   var fee;
 
-  if (selectedTime === 'morning') {
+  if (selectedTime === 'Morning') {
       fee = 70;
       // document.getElementById('morning').src = "/static/images/radio_solid.png";
       // document.getElementById('evening').src = "/static/images/radio_hollow.png";
-  } else if (selectedTime === 'evening') {
+  } else if (selectedTime === 'Afternoon') {
       fee = 80;
       // document.getElementById('morning').src = "/static/images/radio_hollow.png";
       // document.getElementById('evening').src = "/static/images/radio_solid.png";
   } else {
       fee = '';
   }
+
+  data['time'] = selectedTime;
+  data['price'] = fee;
 
   feeElement.textContent = `Fee: USD ${fee}`;
 }

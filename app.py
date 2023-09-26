@@ -2,7 +2,7 @@ from flask import *
 import jwt
 from datetime import datetime, timedelta
 app=Flask(__name__)
-app.secret_key = 'your_secret_key'
+
 
 
 app = Flask(
@@ -13,7 +13,7 @@ app = Flask(
 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-
+app.secret_key = 'your_secret_key'
 
 
 
@@ -415,13 +415,20 @@ def booking_post():
     if not auth_check(auth_header):
         response["message"] = "Login Status Check Failure"
         return jsonify(response), 403
-    
+    else:
+        print("good token! API checked the token again")
+        
+        
     try:
         data_json = request.get_json()
-        session['attractionId'] = data_json['attractionId']
-        session['date'] = data_json['date']
-        session['time'] = data_json['time']
-        session['price'] = data_json['price']
+        session.setdefault('cart', {})
+        cart = session['cart']
+        cart['attractionId'] = data_json['attractionId']
+        cart['date'] = data_json['date']
+        cart['time'] = data_json['time']
+        cart['price'] = data_json['price']
+        session['cart'] = cart
+        print("session['cart']: ",session['cart'])
         response = {"ok": True}
         return jsonify(response), 200
     except KeyError as e:
@@ -445,19 +452,24 @@ def booking_get():
         }
         response["message"] = "Login Status Check Failure"
         return jsonify(response), 403
+    print(session)
     
-    sight_id = session.get("attractionId")
+    sight_id = session['cart']['attractionId']
+
     if sight_id:
         data_backend = get_attraction_lookup(sight_id)
     else:
         data_backend["data"] = None
+    
+    
     response = {
-        "data":{data_backend["data"]},
-        "date": session.get("date"),
-        "time": session.get("time"),
-        "price": session.get("price"),   
+        "attraction": data_backend[0],
+        "date": session['cart'].get("date"),
+        "time": session['cart'].get("time"),
+        "price": session['cart'].get("price"),   
     }
-    return jsonify(response), 200
+    print(response)
+    return jsonify({"data": response}), 200
     
 def get_attraction_lookup(attractionId):
     # Prepare the SQL query to fetch attraction data by ID
@@ -465,14 +477,8 @@ def get_attraction_lookup(attractionId):
         SELECT
             s.id,
             s.name,
-            c.name AS category,
-            s.description,
             s.address,
-            s.transport,
-            m.name AS mrt,
-            s.lat,
-            s.lng,
-            GROUP_CONCAT(f.url) AS images
+            SUBSTRING_INDEX(GROUP_CONCAT(f.url), ',', 1) AS image
         FROM
             sight s
         JOIN
@@ -490,6 +496,13 @@ def get_attraction_lookup(attractionId):
     # Fetch attraction data from the database
     results = execute_query_read(query, data)
     return results
+    # s.lat,
+    # s.lng,
+                # s.transport,
+            # m.name AS mrt,
+                        # s.description,
+                                    # c.name AS category,
+                                    # GROUP_CONCAT(f.url) AS images
 
     
 
