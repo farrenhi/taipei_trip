@@ -1,3 +1,5 @@
+let force_login = false;
+
 function login_check() {
     const token = localStorage.getItem('jwtToken');
     // console.log(token);
@@ -20,13 +22,16 @@ function login_check() {
         } else if (data["error"]) {
             open_login();
         }
-        
     })
     .catch((error) => {
         console.error('Fetch Error Error:', error);
     });
+    } else if (force_login == true) {
+        open_login();
     }
 }
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("taipei_trip").addEventListener("click", function() {

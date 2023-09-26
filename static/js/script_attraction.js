@@ -73,6 +73,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let currentImage = 0;
 
+
+document.querySelector('.bookingform_button_text').addEventListener('click', () => {
+  force_login = true;
+  login_check();
+
+  // if login_check is passed, meaning the user is logged. I would like to execute this function:  performSecondFetch(token);
+
+});
+
+function performSecondFetch(token) {
+  fetch('/api/booking', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+      }
+  })
+  .then(bookingResponse => bookingResponse.json())
+  .then(bookingData => {
+      // Handle the data from the second fetch here
+      console.log('Booking Data:', bookingData);
+  })
+  .catch((bookingError) => {
+      console.error('Booking Fetch Error:', bookingError);
+  });
+}
+
 document.querySelector('.left-button').addEventListener('click', () => {
     let images = document.querySelectorAll('.sight_box_images img');
     let dots = document.querySelectorAll('.dot');

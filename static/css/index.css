@@ -646,6 +646,7 @@ also the height!
     background-color: var(--primary1);
     padding: 10px 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .date_form {
@@ -886,21 +887,37 @@ border: 1px solid white;
     margin: 0 auto;
     width: calc((1000 / 1200) * 100%);
 
-    background-color: lightcyan;
+    /* background-color: lightcyan; */
 }
 
 .sight_book_info {
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 40px;
-    height: 200px;
-    width: calc((980 / 1200) * 100%);
-    background-color: lightcoral;
-    box-sizing: content-box;
 
-    /* border-bottom: 1px solid #E8E8E8; */
+    width: calc((980 / 1200) * 100%);
+    /* background-color: lightcoral; */
+    /* box-sizing: content-box; */
+
 }
 
+.sight_box_booking_carousel {
+    /* background-color: pink; */
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block; /* Allows overlay to be positioned relative to the container */
+    
+}
+.sight_box_booking_carousel img {
+    width: 250px;
+    aspect-ratio: 250 / 200;
+    object-fit: cover;
+}
+
+.booking_sight_box {
+    display: flex;
+}
 
 .contact_form_outer {
     /* background-color: lightskyblue; */
@@ -909,7 +926,25 @@ border: 1px solid white;
     border-bottom: 1px solid #E8E8E8;
 }
 
+.booking_sight_box_right {
+    flex: 1;
+    margin-left: 30px;
+    /* background-color: lightblue; */
 
+    /* padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 40px; */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking_head {
+    color: var(--primary1);
+    padding: 5px 0;
+    margin-bottom: 5px;
+}
 
 .contact_title {
     color: var(--secondary1);
