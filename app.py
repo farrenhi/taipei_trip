@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 app=Flask(__name__)
 
 
+
 app = Flask(
     __name__,
     static_folder = "static",
@@ -12,7 +13,7 @@ app = Flask(
 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-
+app.secret_key = 'your_secret_key'
 
 
 
@@ -90,6 +91,7 @@ def attraction(id):
 @app.route("/booking")
 def booking():
 	return render_template("booking.html")
+
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
@@ -371,12 +373,10 @@ def signin_get():
 
     if not auth_header:
         return jsonify({"error": "Authorization header is missing"}), 401  # Unauthorized
-
     # Check if the header starts with 'Bearer'
     token_type, token = auth_header.split()
     if token_type != 'Bearer':
         return jsonify({"error": "Invalid token type"}), 401  # Unauthorized
-
     try:
         # Verify and decode the token
         payload = jwt.decode(token, 'secret', algorithms=["HS256"])
@@ -388,6 +388,152 @@ def signin_get():
     except jwt.DecodeError:
         return jsonify({"error": "Invalid token"}), 401  # Unauthorized
 
-
+def auth_check(item):
+    if not item:
+        return False
     
+    token_type, token = item.split()
+    if token_type != 'Bearer':
+        return False
+    try:
+        payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        return True
+    except jwt.ExpiredSignatureError:
+        return False
+    except jwt.DecodeError:
+        return False
+    
+@app.route('/api/booking', methods=['POST'])
+def booking_post():
+    auth_header = request.headers.get('Authorization')
+    
+    response ={
+        "error": True,
+        "message": "to be continued"
+    }
+    
+    if not auth_check(auth_header):
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+    else:
+        print("good token! API checked the token again")
+        
+        
+    try:
+        data_json = request.get_json()
+        session.setdefault('cart', {})
+        
+        cart = session['cart']
+        cart['attractionId'] = data_json['attractionId']
+        cart['date'] = data_json['date']
+        cart['time'] = data_json['time']
+        cart['price'] = data_json['price']
+        session['cart'] = cart
+        print("session['cart']: ", session['cart'])
+        response = {"ok": True}
+        return jsonify(response), 200
+    except KeyError as e:
+        error_message = f'Missing key in request data: {e}'
+        response["message"] = error_message
+        return jsonify(response), 400
+    except Exception as e:
+        error_message = f'An error occurred: {e}'
+        response["message"] = error_message
+        return jsonify(response), 500
+
+
+@app.route('/api/booking', methods=['GET'])
+def booking_get():
+    auth_header = request.headers.get('Authorization')
+    
+    if not auth_check(auth_header):
+        response = {
+            "error": True,
+            "message": "to be continued"
+        }
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+    
+    # print(session)
+    
+    # sight_id = session['cart']['attractionId']
+    # if session['cart']['attractionId']:
+    if 'cart' in session and 'attractionId' in session['cart'] and session['cart']['attractionId']:
+        sight_id = session['cart']['attractionId']
+        data_backend = get_attraction_lookup(sight_id)
+        response = {
+        "attraction": data_backend[0],
+        "date": session['cart'].get("date"),
+        "time": session['cart'].get("time"),
+        "price": session['cart'].get("price"),   
+        }
+    else:
+        response = None
+
+    # print(response)
+    return jsonify({"data": response}), 200
+    
+def get_attraction_lookup(attractionId):
+    # Prepare the SQL query to fetch attraction data by ID
+    query = """
+        SELECT
+            s.id,
+            s.name,
+            s.address,
+            SUBSTRING_INDEX(GROUP_CONCAT(f.url), ',', 1) AS image
+        FROM
+            sight s
+        JOIN
+            category c ON s.category_id = c.id
+        JOIN
+            mrt m ON s.mrt_id = m.id
+        LEFT JOIN
+            file f ON s.id = f.sight_id
+        WHERE
+            s.id = %s
+        GROUP BY
+            s.id
+    """
+    data = (attractionId,)
+    # Fetch attraction data from the database
+    results = execute_query_read(query, data)
+    return results
+    # s.lat,
+    # s.lng,
+                # s.transport,
+            # m.name AS mrt,
+                        # s.description,
+                                    # c.name AS category,
+                                    # GROUP_CONCAT(f.url) AS images
+
+@app.route('/api/booking', methods=['DELETE'])
+def booking_delete():
+    auth_header = request.headers.get('Authorization')
+    
+    if not auth_check(auth_header):
+        response = {
+            "error": True,
+            "message": "to be continued"
+        }
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+    session.clear()
+    print(session)
+    
+    # sight_id = session['cart']['attractionId']
+
+    # if sight_id:
+    #     data_backend = get_attraction_lookup(sight_id)
+    # else:
+    #     data_backend["data"] = None
+    
+    # response = {
+    #     "attraction": data_backend[0],
+    #     "date": session['cart'].get("date"),
+    #     "time": session['cart'].get("time"),
+    #     "price": session['cart'].get("price"),   
+    # }
+
+    return jsonify({"ok": True}), 200
+
 app.run(host="0.0.0.0", port=3000, debug=True)

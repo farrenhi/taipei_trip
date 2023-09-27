@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="main main_booking">
+    <div class="headline button_btn_bold"></div>
+    <div class="no_booking body_body_medium"> There is no plan yet!
+    </div>
+
+    <div class="sight_book_info">
+        <div class="booking_sight_box">
+
+            <div class="sight_box_booking_carousel">
+                <!-- <div class="sight_box_images"> -->
+                    <!-- <img src="https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000985.jpg" alt="Image"> -->
+                <!-- </div> -->
+            </div>
+
+    
+            <div class="booking_sight_box_right">
+                    <div class="booking_delete" id="booking_delete">
+                        <img src="/static/images/delete.png">
+                    </div>
+                    <div id="booking_sight_name" class="booking_head body_body_bold"></div>
+                    <div id="booking_date" class="bookingform_head body_body_bold"></div>
+                    <div id="booking_time" class="bookingform_head body_body_bold"></div>
+                    <div id="booking_fee" class="bookingform_head body_body_bold"></div>
+                    <div id="booking_address" class="bookingform_head body_body_bold"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="contact_form_outer">
+        <div class="contact_form">
+            <div class="button_btn_bold contact_title"> Your Contact</div>
+            
+            <div class="body_body_medium"> 
+                <span> Name: </span> 
+                <input type="text" id="contact_name" required class="contact_input_box body_body_medium">
+            </div>
+            <div class="body_body_medium"> 
+                <span> Email: </span> 
+                <input type="text" id="contact_email" required class="contact_input_box body_body_medium">
+            </div>
+            <div class="body_body_medium">  
+                <span> Mobile: </span> 
+                <input type="text" id="contact_mobile" required class="contact_input_box body_body_medium">
+            </div>
+            <div class="body_body_bold contact_warn"> Kindly ensure your phone is accessible, arrive promptly, and our guide will call your number. </div>
+        </div>
+    </div>
+
+    <div class="payment">
+        <div class="button_btn_bold contact_title"> Credit Card Payment </div>
+        <div class="body_body_medium"> 
+            <span> Credit Card Number: </span> 
+            <input type="text" id="payment_cardnumber" placeholder="**** **** **** ****" required class="contact_input_box body_body_medium">
+        </div>
+        <div class="body_body_medium"> 
+            <span> Expiration Date: </span> 
+            <input type="text" id="payment_expdate" placeholder="MM / YY" required class="contact_input_box body_body_medium">
+        </div>
+        <div class="body_body_medium">  
+            <span> Security Code: </span> 
+            <input type="text" id="payment_code" placeholder="CVV or CVC" required class="contact_input_box body_body_medium">
+        </div>
+
+    </div>
+
+    <div class="confirm_box_outer">
+        <div class="confirm_box">
+            <div class="confirm_box_price body_body_bold"> Price: </div>
+            <div class="confirm_box_button">
+                <button type="submit" class="confirm_box_button2 button_btn_regular"> Place your Order </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascript %}
+<script src="/static/js/script_booking"></script>
+{% endblock %}

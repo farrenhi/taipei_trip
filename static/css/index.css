@@ -16,6 +16,11 @@
 
 body {
     margin: 0;
+    
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
 }
 
 .headline_h2_bold {
@@ -71,6 +76,13 @@ font-weight: bold;
     font-size: 16px;
     line-height: normal;
     color: var(--secondary1);
+}
+
+.button_btn_bold {
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 16px;
 }
 
 .button_btn_regular {
@@ -282,7 +294,7 @@ font-weight: bold;
 }
 
 
-.main_attraction{
+.main_attraction {
     margin-top: 54px;
     /* background-color: green; */
     
@@ -474,6 +486,7 @@ also the height!
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
+    flex: 1;
 }
 
 
@@ -639,6 +652,7 @@ also the height!
     background-color: var(--primary1);
     padding: 10px 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .date_form {
@@ -865,7 +879,179 @@ border: 1px solid white;
     opacity: 0.25;
 }
 
+.main_booking {
+    margin-top: 54px;
+    /* background-color: green; */
+    width: 100%;
 
+}
+
+.headline {
+    color: var(--secondary1);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin: 0 auto;
+    width: calc((1000 / 1200) * 100%);
+
+    /* background-color: lightcyan; */
+}
+
+.no_booking {
+    color: var(--secondary1);
+    display: none;
+    
+    height: 24px;
+    margin: 0 auto;
+    margin-top: 30px;
+    width: calc((1000 / 1200) * 100%);
+
+}
+
+.sight_book_info {
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 40px;
+
+    width: calc((980 / 1200) * 100%);
+    /* background-color: lightcoral; */
+    /* box-sizing: content-box; */
+
+}
+
+.sight_box_booking_carousel {
+    /* background-color: pink; */
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block; /* Allows overlay to be positioned relative to the container */
+    
+}
+.sight_box_booking_carousel img {
+    width: 250px;
+    aspect-ratio: 250 / 200;
+    object-fit: cover;
+}
+
+.booking_sight_box {
+    display: flex;
+}
+
+.contact_form_outer {
+    /* background-color: lightskyblue; */
+    padding: 40px 0;
+    border-top: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.booking_sight_box_right {
+    flex: 1;
+    margin-left: 30px;
+    /* background-color: lightblue; */
+
+    /* padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 40px; */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+.booking_delete img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
+
+.booking_head {
+    color: var(--primary1);
+    padding: 5px 0;
+    margin-bottom: 5px;
+}
+
+.contact_title {
+    color: var(--secondary1);
+    padding: 4px 0;
+    margin-bottom: 5px;
+}
+
+.contact_warn {
+    margin-top: 15px;
+    color: var(--secondary1);
+}
+
+.contact_form {
+    /* background-color: lightseagreen; */
+    width: calc((980 / 1200) * 100%);
+    margin: 0 auto;
+    /* height: 100px; */
+    display: flex;
+    flex-direction: column;
+}
+
+/* .contact_input {
+    display: flex;
+    align-items: center;
+} */
+
+.contact_input_box {
+    width: 180px;
+    height: 18px;
+    padding: 10px;
+    box-sizing: content-box;
+    border-radius: 5px; 
+    border: 1px solid #E8E8E8;
+    margin-top: 15px; 
+    margin-left: 5px;
+}
+
+.payment {
+    margin: 40px auto;
+    /* height: 200px; */
+    width: calc((980 / 1200) * 100%);
+    /* background-color: lightcoral; */
+    box-sizing: content-box;
+}
+
+.confirm_box_outer {
+    /* background-color: lightskyblue; */
+    padding: 40px 0;
+    padding-bottom: 0px;
+    border-top: 1px solid #E8E8E8;
+}
+
+.confirm_box {
+    /* background-color: lightseagreen; */
+    width: calc((980 / 1200) * 100%);
+    margin: 0 auto;
+    /* height: 100px; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end; */
+    align-items: flex-end;
+}
+
+.confirm_box_price {
+    margin-bottom: 22px;
+}
+
+.confirm_box_button {
+}
+
+.confirm_box_button2 {
+    background-color: var(--primary1);
+    color: white;
+    height: 47px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 0px;
+    cursor: pointer;
+    margin-bottom: 22px;
+}
 
 @media (max-width: 1200px) {
     .main {
@@ -980,7 +1166,82 @@ border: 1px solid white;
         justify-content: center;
         flex-direction: column;
     }
+
+    .main_booking {
+        width: 100%;
+
+        /* give it a try */
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding-left: 10px;
+        padding-right: 10px;
+        box-sizing: border-box;
+    }
+
+    .sight_book_info {
+        margin: 0px;
+        width: 100%;
+
+    }
+
+    .booking_sight_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     
+    .booking_sight_box_right {
+        margin-left: 0;
+        padding-bottom: 30px;
+    }
+
+    .booking_delete img {
+        top: auto;
+        bottom: 0;
+    }
+
+    .headline {
+        width: 100%;
+    }
+    
+    .no_booking {
+        width: 100%;
+    }
+
+    .contact_form {
+        width: 100%;
+        margin: 0;
+    }
+
+    .confirm_box {
+        width: 100%;
+        margin: 0;
+    }
+
+
+    
+    .payment {
+        width: 100%;
+        margin: 30px 0;
+        
+    }
+
+    .button_btn_bold {
+        line-height: normal;
+    }
+
+    .body_body_bold {
+        line-height: normal;
+    }
+
+    .body_body_medium {
+        line-height: normal;
+    }
+
+
+
+
     .outer_carousel {
         /* background-color: grey; */
         display: flex;

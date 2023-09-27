@@ -1,32 +1,85 @@
-function login_check() {
+let force_login = false;
+
+// function login_check() {
+//     const token = localStorage.getItem('jwtToken');
+//     // console.log(token);
+
+//     if (token) {
+//     fetch('/api/user/auth', {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${token}`,
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         // console.log('Fetch Success Yes:', data);
+//         if (data["data"]) {
+//             document.getElementById('loginButton').style.display = 'none';
+//             document.getElementById('logout_button').style.display = 'block';
+
+//         } else if (data["error"]) {
+//             open_login();
+//         }
+//     })
+//     .catch((error) => {
+//         console.error('Fetch Error Error:', error);
+//     });
+//     } else if (force_login == true) {
+//         open_login();
+//     }
+// }
+
+
+const info_login = {};
+
+async function login_check() {
     const token = localStorage.getItem('jwtToken');
-    // console.log(token);
 
     if (token) {
-    fetch('/api/user/auth', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // console.log('Fetch Success Yes:', data);
-        if (data["data"]) {
-            document.getElementById('loginButton').style.display = 'none';
-            document.getElementById('logout_button').style.display = 'block';
+        try {
+            const response = await fetch('/api/user/auth', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
 
-        } else if (data["error"]) {
-            open_login();
+            const data = await response.json();
+            info_login['name'] = data['data']['name'];
+
+            if (data["data"]) {
+                document.getElementById('loginButton').style.display = 'none';
+                document.getElementById('logout_button').style.display = 'block';
+                return token; // Return the token if user is logged in
+            } else if (data["error"]) {
+                open_login();
+                return null; // Return null if user is not logged in
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            return null;
         }
-        
-    })
-    .catch((error) => {
-        console.error('Fetch Error Error:', error);
-    });
+    } else if (force_login == true) {
+        open_login();
+        return null;
     }
 }
+
+
+document.querySelector('.item1').addEventListener('click', () => {
+    force_login = true;
+    // login_check();
+    login_check().then(token => {
+      if (token) {
+          window.location.href = "/booking";
+      }
+    });
+  });
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("taipei_trip").addEventListener("click", function() {

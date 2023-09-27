@@ -73,6 +73,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let currentImage = 0;
 
+
+document.querySelector('.bookingform_button_text').addEventListener('click', () => {
+  force_login = true;
+  // login_check();
+  login_check()
+  .then(token => {
+    if (token) {
+        book_trip(token);
+    }})
+  // .then(() => (window.location.href = "/booking"))
+  // Q: how to put it here?
+});
+
+let data = {"attractionId": attractionId,}
+
+function book_trip(token) {
+
+  data['date'] = document.getElementById('targetDate').value;
+
+  fetch('/api/booking', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data)
+  })
+  .then(bookingResponse => bookingResponse.json())
+  .then(bookingData => {
+      // Handle the data from the second fetch here
+      console.log('Booking Data:', bookingData);
+      window.location.href = "/booking";
+  })
+  .catch((bookingError) => {
+      console.error('Booking Fetch Error:', bookingError);
+  });
+}
+
 document.querySelector('.left-button').addEventListener('click', () => {
     let images = document.querySelectorAll('.sight_box_images img');
     let dots = document.querySelectorAll('.dot');
@@ -104,17 +142,20 @@ function updateFee(selectedTime) {
   var feeElement = document.getElementById('fee');
   var fee;
 
-  if (selectedTime === 'morning') {
+  if (selectedTime === 'Morning') {
       fee = 70;
       // document.getElementById('morning').src = "/static/images/radio_solid.png";
       // document.getElementById('evening').src = "/static/images/radio_hollow.png";
-  } else if (selectedTime === 'evening') {
+  } else if (selectedTime === 'Afternoon') {
       fee = 80;
       // document.getElementById('morning').src = "/static/images/radio_hollow.png";
       // document.getElementById('evening').src = "/static/images/radio_solid.png";
   } else {
       fee = '';
   }
+
+  data['time'] = selectedTime;
+  data['price'] = fee;
 
   feeElement.textContent = `Fee: USD ${fee}`;
 }
