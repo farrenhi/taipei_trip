@@ -317,6 +317,7 @@ font-weight: bold;
     height: 32px;
     padding: 9px 0px 9px 15px;
     flex-shrink: 0;
+    cursor: pointer;
   
 }
 
@@ -353,6 +354,7 @@ font-weight: bold;
     /* border: 1px dashed black; */
     display: flex;
     flex-direction: row;
+    cursor: pointer;
 }
 
 
@@ -365,6 +367,7 @@ font-weight: bold;
     height: 32px;
     padding: 9px 15px 9px 0px;
     flex-shrink: 0; 
+    cursor: pointer;
 }
 
 .list_bar_right_container img {
@@ -639,7 +642,8 @@ also the height!
 }
 
 .bookingform_head, .bookingform_text {
-    color: var(--secondary1)
+    color: var(--secondary1);
+    line-height: normal;
 }
 
 .bookingform_button {
