@@ -9,6 +9,6 @@ The website will show packages of day trip in Taipei. Users could see the introd
 There will be a payment system. <br>
 
 
-Updated: September 21, 2023.  <br>
+Updated: September 28, 2023.  <br>
 
 New: We could now reserve a sight tour! The next update will be payment system. <br>
