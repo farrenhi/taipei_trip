@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }).then( 
         (data) => {
             const login_name = document.querySelector('.headline');
-            login_name.textContent = `Hello ${info_login['name']}, your booking schedule is as follows.`;
+            login_name.textContent = `Hello ${info_login['name']}, here is your booking.`;
 
         if (data['data']) {
             const carousel = document.querySelector('.sight_box_booking_carousel');
