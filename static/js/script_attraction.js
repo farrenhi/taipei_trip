@@ -6,13 +6,13 @@
 const carousel = document.querySelector('.sight_box_images');
 
 function getAttractionIdFromUrl() {
-    var url = window.location.href; // Get the current URL
-    var parts = url.split('/'); // Split the URL by '/'
-    var id = parts[parts.length - 1]; // Get the last part of the URL
+    let url = window.location.href; // Get the current URL
+    let parts = url.split('/'); // Split the URL by '/'
+    let id = parts[parts.length - 1]; // Get the last part of the URL
     return id;
 }
 
-var attractionId = getAttractionIdFromUrl();
+let attractionId = getAttractionIdFromUrl();
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/attraction/' + attractionId)
@@ -139,8 +139,8 @@ document.querySelector('.right-button').addEventListener('click', () => {
 
 
 function updateFee(selectedTime) {
-  var feeElement = document.getElementById('fee');
-  var fee;
+  let feeElement = document.getElementById('fee');
+  let fee;
 
   if (selectedTime === 'Morning') {
       fee = 70;

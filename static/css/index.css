@@ -149,22 +149,21 @@ font-weight: bold;
     cursor: pointer;
 }
 
-.welcome {
+/* .welcome {
     display:flex; justify-content: center; align-items: center;
     font-size: 40px;
     font-weight: bold;
     height: 250px;
     background-color: lightblue;
-}
+} */
 
 .welcome-banner {
     margin-top: 56px;
     background-image: url('/static/images/taipei101.png'); /* Replace 'your-banner-image.png' with the actual path to your PNG image */
     background-size: cover; /* Adjust the background size as needed */
     background-repeat: no-repeat; /* Prevent image repetition */
-    background-position: center center; /* Center the image horizontally and vertically */
+    background-position: top; /* Center the image horizontally and vertically */
     color: #fff; /* Set text color to white or another suitable color for better visibility */
-    height: 320px;
     font-weight: 700;
 
     display: flex;
@@ -180,7 +179,7 @@ font-weight: bold;
     max-width: 1200px;
     width: 100%;
     /* background-color: black; */
-    height: 250px;
+    height: 310px;
 
     display: flex;
     align-items: center;
@@ -317,6 +316,7 @@ font-weight: bold;
     height: 32px;
     padding: 9px 0px 9px 15px;
     flex-shrink: 0;
+    cursor: pointer;
   
 }
 
@@ -353,6 +353,7 @@ font-weight: bold;
     /* border: 1px dashed black; */
     display: flex;
     flex-direction: row;
+    cursor: pointer;
 }
 
 
@@ -365,6 +366,7 @@ font-weight: bold;
     height: 32px;
     padding: 9px 15px 9px 0px;
     flex-shrink: 0; 
+    cursor: pointer;
 }
 
 .list_bar_right_container img {
@@ -639,7 +641,8 @@ also the height!
 }
 
 .bookingform_head, .bookingform_text {
-    color: var(--secondary1)
+    color: var(--secondary1);
+    line-height: normal;
 }
 
 .bookingform_button {
@@ -1185,15 +1188,29 @@ border: 1px solid white;
 
     }
 
+    .sight_box_booking_carousel {
+        display: flex;
+        justify-content: center;
+    }
+
+    .sight_box_booking_carousel img {
+        width: 100vw;
+        max-width: 500px;
+        aspect-ratio: 340 / 200;
+        border-radius: 5px;
+    }
+
     .booking_sight_box {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin-top: 30px;
     }
     
     .booking_sight_box_right {
         margin-left: 0;
         padding-bottom: 30px;
+        margin-bottom: 30px;
     }
 
     .booking_delete img {
@@ -1223,7 +1240,7 @@ border: 1px solid white;
     
     .payment {
         width: 100%;
-        margin: 30px 0;
+        margin: 40px 0;
         
     }
 

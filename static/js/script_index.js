@@ -126,7 +126,7 @@
 
 
             document.addEventListener('DOMContentLoaded', function() {
-                var listItems = document.querySelectorAll('.list_bar_container div');
+                let listItems = document.querySelectorAll('.list_bar_container div');
 
                 // Function to handle mouse over event
                 function handleMouseOver(element) {
@@ -152,16 +152,16 @@
 
             document.addEventListener('DOMContentLoaded', function() {
                 // Get the arrow elements
-                var leftArrow = document.getElementById('left_arrow');
-                var rightArrow = document.getElementById('right_arrow');
+                let leftArrow = document.getElementById('left_arrow');
+                let rightArrow = document.getElementById('right_arrow');
 
                 // Define the hovered image sources
-                var leftHoveredImageSrc = '/static/images/arrow_left_hovered.png';
-                var rightHoveredImageSrc = '/static/images/arrow_right_hovered.png';
+                let leftHoveredImageSrc = '/static/images/arrow_left_hovered.png';
+                let rightHoveredImageSrc = '/static/images/arrow_right_hovered.png';
 
                 // Define the original image sources
-                var leftOriginalImageSrc = '/static/images/arrow_left.png';
-                var rightOriginalImageSrc = '/static/images/arrow_right.png';
+                let leftOriginalImageSrc = '/static/images/arrow_left.png';
+                let rightOriginalImageSrc = '/static/images/arrow_right.png';
 
                 // Function to handle mouse over event
                 function handleMouseOver(element, hoveredSrc) {
@@ -362,11 +362,11 @@
                 // Your event listener registration code here
 
                 // Get the list container
-                var listContainer = document.querySelector('.list');
+                let listContainer = document.querySelector('.list');
 
                 // Function to handle mouse over event
                 function handleMouseOver(event) {
-                    var target = event.target;
+                    let target = event.target;
 
                     if (target.tagName === 'DIV' && target.parentElement.classList.contains('list')) {
                         target.style.color = '#000';
@@ -375,7 +375,7 @@
 
                 // Function to handle mouse out event
                 function handleMouseOut(event) {
-                    var target = event.target;
+                    let target = event.target;
 
                     if (target.tagName === 'DIV' && target.parentElement.classList.contains('list')) {
                         target.style.color = '#666';
@@ -384,7 +384,7 @@
 
                 // Function to handle click event
                 function handleClick(event) {
-                    var target = event.target;
+                    let target = event.target;
                     const dataContainer = document.getElementById('part2_twelve');
 
                     if (target.tagName === 'DIV' && target.parentElement.classList.contains('list')) {
