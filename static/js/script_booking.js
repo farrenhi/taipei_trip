@@ -114,86 +114,72 @@ document.querySelector('.booking_delete').addEventListener('click', () => {
     });
   }
 
-src="https://js.tappaysdk.com/sdk/tpdirect/v5.17.0"
-TPDirect.setupSDK(APP_ID, 'APP_KEY', 'sandbox')
+let fields = {
+    number: {
+        // css selector
+        element: '#card-number',
+        placeholder: '**** **** **** ****'
+    },
+    expirationDate: {
+        // DOM object
+        element: document.getElementById('card-expiration-date'),
+        placeholder: 'MM / YY'
+    },
+    ccv: {
+        element: '#card-ccv',
+        placeholder: 'CVV or CVC'
+    }
+}
 
-TPDirect.card.setup({
-    // Display ccv field
-    let fields = {
-        number: {
-            // css selector
-            element: '#card-number',
-            placeholder: '**** **** **** ****'
-        },
-        expirationDate: {
-            // DOM object
-            element: document.getElementById('card-expiration-date'),
-            placeholder: 'MM / YY'
-        },
-        ccv: {
-            element: '#card-ccv',
-            placeholder: 'ccv'
+let styles = {
+    // Style all elements
+    'input': {
+        'color': 'gray'
+    },
+    // Styling ccv field
+    'input.ccv': {
+        // 'font-size': '16px'
+    },
+    // Styling expiration-date field
+    'input.expiration-date': {
+        // 'font-size': '16px'
+    },
+    // Styling card-number field
+    'input.card-number': {
+        // 'font-size': '16px'
+    },
+    // style focus state
+    ':focus': {
+        // 'color': 'black'
+    },
+    // style valid state
+    '.valid': {
+        'color': 'green'
+    },
+    // style invalid state
+    '.invalid': {
+        'color': 'red'
+    },
+    // Media queries
+    // Note that these apply to the iframe, not the root window.
+    '@media screen and (max-width: 400px)': {
+        'input': {
+            'color': 'orange'
         }
     }
-    // Not display ccv field
-    // let fields = {
-    //     number: {
-    //         // css selector
-    //         element: '#card-number',
-    //         placeholder: '**** **** **** ****'
-    //     },
-    //     expirationDate: {
-    //         // DOM object
-    //         element: document.getElementById('card-expiration-date'),
-    //         placeholder: 'MM / YY'
-    //     }
-    // }
+}
 
+TPDirect.card.setup({
     fields: fields,
-    styles: {
-        // Style all elements
-        'input': {
-            'color': 'gray'
-        },
-        // Styling ccv field
-        'input.ccv': {
-            // 'font-size': '16px'
-        },
-        // Styling expiration-date field
-        'input.expiration-date': {
-            // 'font-size': '16px'
-        },
-        // Styling card-number field
-        'input.card-number': {
-            // 'font-size': '16px'
-        },
-        // style focus state
-        ':focus': {
-            // 'color': 'black'
-        },
-        // style valid state
-        '.valid': {
-            'color': 'green'
-        },
-        // style invalid state
-        '.invalid': {
-            'color': 'red'
-        },
-        // Media queries
-        // Note that these apply to the iframe, not the root window.
-        '@media screen and (max-width: 400px)': {
-            'input': {
-                'color': 'orange'
-            }
-        }
-    },
-    // if the card number is correct, it would show the last 6 digit number.
+    styles: styles,
+    // is the card number is correct, it would show the last 6 digits
     isMaskCreditCardNumber: true,
     maskCreditCardNumberRange: {
         beginIndex: 6,
         endIndex: 11
     }
 })
+
 
 
 TPDirect.card.onUpdate(function (update) {
@@ -260,7 +246,7 @@ function onSubmit(event) {
             alert('get prime error ' + result.msg)
             return
         }
-        alert('get prime 成功，prime: ' + result.card.prime)
+        alert('get prime successfully! prime: ' + result.card.prime)
 
         // send prime to your server, to pay with Pay by Prime API .
         // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
