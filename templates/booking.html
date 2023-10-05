@@ -54,15 +54,15 @@
         <div class="button_btn_bold contact_title"> Credit Card Payment </div>
         <div class="body_body_medium"> 
             <span> Credit Card Number: </span> 
-            <input type="text" id="payment_cardnumber" placeholder="**** **** **** ****" required class="contact_input_box body_body_medium">
+            <input type="text" id="card-number" placeholder="**** **** **** ****" required class="contact_input_box body_body_medium">
         </div>
         <div class="body_body_medium"> 
             <span> Expiration Date: </span> 
-            <input type="text" id="payment_expdate" placeholder="MM / YY" required class="contact_input_box body_body_medium">
+            <input type="text" id="card-expiration-date" placeholder="MM / YY" required class="contact_input_box body_body_medium">
         </div>
         <div class="body_body_medium">  
             <span> Security Code: </span> 
-            <input type="text" id="payment_code" placeholder="CVV or CVC" required class="contact_input_box body_body_medium">
+            <input type="text" id="card-ccv" placeholder="CVV or CVC" required class="contact_input_box body_body_medium">
         </div>
 
     </div>
@@ -71,7 +71,7 @@
         <div class="confirm_box">
             <div class="confirm_box_price body_body_bold"> Price: </div>
             <div class="confirm_box_button">
-                <button type="submit" class="confirm_box_button2 button_btn_regular"> Place your Order </button>
+                <button type="submit" class="confirm_box_button2 button_btn_regular" onclick="onSubmit()"> Place your Order </button>
             </div>
         </div>
     </div>
