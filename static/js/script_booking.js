@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             return get_trip(token);
         };
-        console.log(token);
+        // console.log(token);
 
     }).then( 
         (data) => {
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     );
 });
+
 
 
 function get_trip(token) {  
@@ -228,7 +229,7 @@ TPDirect.card.onUpdate(function (update) {
 // call TPDirect.card.getPrime when user submit form to get tappay prime
 // $('form').on('submit', onSubmit)
 
-function onSubmit(event) {
+async function onSubmit(event) {
     event.preventDefault()
 
     // get the status of TapPay Fields
@@ -241,14 +242,58 @@ function onSubmit(event) {
     }
 
     // Get prime
-    TPDirect.card.getPrime((result) => {
+    await TPDirect.card.getPrime((result) => {
         if (result.status !== 0) {
             alert('get prime error ' + result.msg)
             return
         }
-        alert('get prime successfully! prime: ' + result.card.prime)
+
+        alert('get prime successfully! prime: ' + result.card.prime);
+
+        send_booking_to_backend(result.card.prime);
+
 
         // send prime to your server, to pay with Pay by Prime API .
         // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
     })
+}
+
+
+async function send_booking_to_backend(prime) {
+    const token = localStorage.getItem('jwtToken')
+
+    let data = await get_trip(token);
+
+    let name = document.getElementById('contact_name').value;
+    let email = document.getElementById('contact_email').value;
+    let phone = document.getElementById('contact_mobile').value;
+    console.log("testinfoL", info_login['member_login_id']);
+
+    data_order = {
+        "prime": prime,
+        "order": {
+            "price": data['data']['price'],
+            "trip": {
+                "attraction": data['data']['attraction']
+            },
+            "date": data['data']['date'],
+            "time": data['data']['time'],
+        },
+        "contact": {
+            "name": name,
+            "email": email,
+            "phone": phone,
+        },
+        "member_login_id": info_login['member_login_id'],
+    }
+    
+    return fetch('/api/orders', {
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data_order)
+    }
+    )
 }

@@ -49,6 +49,7 @@ async function login_check() {
 
             const data = await response.json();
             info_login['name'] = data['data']['name'];
+            info_login['member_login_id'] = data['data']['id'];
 
             if (data["data"]) {
                 document.getElementById('loginButton').style.display = 'none';

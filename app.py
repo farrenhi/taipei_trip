@@ -1,6 +1,9 @@
 from flask import *
 import jwt
 from datetime import datetime, timedelta
+import datetime
+import requests
+
 app=Flask(__name__)
 
 
@@ -402,7 +405,19 @@ def auth_check(item):
         return False
     except jwt.DecodeError:
         return False
+
+def return_login_failure(item):
+    response ={
+        "error": True,
+        "message": "to be continued"
+    }
     
+    if not auth_check(item):
+        response["message"] = "Login Status Check Failure"
+        return jsonify(response), 403
+
+    
+
 @app.route('/api/booking', methods=['POST'])
 def booking_post():
     auth_header = request.headers.get('Authorization')
@@ -415,8 +430,7 @@ def booking_post():
     if not auth_check(auth_header):
         response["message"] = "Login Status Check Failure"
         return jsonify(response), 403
-    else:
-        print("good token! API checked the token again")
+
         
         
     try:
@@ -535,5 +549,96 @@ def booking_delete():
     # }
 
     return jsonify({"ok": True}), 200
+
+
+@app.route('/api/orders', methods=['POST'])
+def orders_post():
+    auth_header = request.headers.get('Authorization')
+    return_login_failure(auth_header)
+    # if not auth_check(auth_header):
+    #     response = {
+    #         "error": True,
+    #         "message": "to be continued"
+    #     }
+    #     response["message"] = "Login Status Check Failure"
+    #     return jsonify(response), 403
+           
+    data_json = request.get_json()
+    prime = data_json['prime']
+
+    current_datetime = datetime.datetime.now()
+    order_number = current_datetime.strftime("%Y%m%d%H%M%S%f") + str(data_json['member_login_id'])
+    
+    query = "INSERT INTO orders(order_number, contact_name, contact_email, contact_phone, payment, sight_id, member_id) \
+             VALUES(%s, %s, %s, %s, %s, %s, %s);"
+    data = (order_number, 
+            data_json['contact']['name'], 
+            data_json['contact']['email'],
+            data_json['contact']['phone'],
+            0,
+            data_json['order']['trip']['attraction']['id'], 
+            data_json['member_login_id'])
+    
+    if execute_query_create(query, data):
+        response = {
+            "ok": True
+        }
+        # return jsonify(response), 200
+    else:
+        response = {
+            "error": True,
+            "message": "SQL database internal issue"
+        }
+        # return jsonify(response), 500
+        
+    # call TapPay API for payment process
+    cardholder = {
+        "phone_number": data_json['contact']['phone'],
+        "name": data_json['contact']['name'],
+        "email": data_json['contact']['email'],
+    }
+    
+    response = connect_tappay(prime, cardholder)
+    
+    
+    
+    if response['status'] == 0:
+        
+    
+    
+def connect_tappay(prime, cardholder):
+    # Define the URL
+    url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+
+    # Define the request payload
+    payload = {
+        "prime": prime,
+        "partner_key": 'partner_h7AuQ40Oq7cXYX4roROxccn1m5zQf4GOPMJ11SqKfCo3YHt5c4VT2H7r',
+        "merchant_id": "testandtest_TAISHIN",
+        "details": "TapPay Test",
+        "amount": 1,
+        "cardholder": cardholder,
+        "remember": False
+    }
+
+    # Define headers
+    headers = {
+        "Content-Type": "application/json",
+        "x-api-key": "partner_h7AuQ40Oq7cXYX4roROxccn1m5zQf4GOPMJ11SqKfCo3YHt5c4VT2H7r"
+    }
+
+    # Make the request
+    response = requests.post(url, json=payload, headers=headers)
+
+    # Print the response
+    response_json = response.json()
+    return response_json
+
+    
+
+
+    
+
+
 
 app.run(host="0.0.0.0", port=3000, debug=True)

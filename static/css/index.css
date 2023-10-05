@@ -1016,7 +1016,21 @@ border: 1px solid white;
     border-radius: 5px; 
     border: 1px solid #E8E8E8;
     margin-left: 5px;
+    margin-top: 15px;
 }
+
+.card_input_box {
+    width: 180px;
+    height: 18px;
+    padding: 10px;
+    box-sizing: content-box;
+    border-radius: 5px; 
+    border: 1px solid #E8E8E8;
+    margin-left: 5px;
+}
+
+
+
 
 .payment {
     margin: 40px auto;
