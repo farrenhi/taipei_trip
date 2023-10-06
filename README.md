@@ -14,5 +14,5 @@ New: Payment system is ready! After payment goes through, you will get confirmat
 
 You could use these info for testing! <br>
 Card number: 4242 4242 4242 4242 <br>
-Expiration date: 04 / 24 <br>
+Expiration date: 04 / 30 (or any date in the future) <br>
 CCV: 123 <br>
