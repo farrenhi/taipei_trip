@@ -15,21 +15,13 @@ app = Flask(
 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.secret_key = 'your_secret_key'
+app.secret_key = 'your_secret_key' 
+# generic key for testing environment
 
 
 
 # Connection Pool
 import mysql.connector.pooling
-
-# Configuration for the database connection pool
-# db_config_haha = {
-#     "host": "localhost",
-#     "user": "root",
-#     "password": "MyNewPass5!",
-#     "database": "mydb",
-#     "port": 3306,
-# }
 
 # local parameters
 db_config_haha = {
@@ -38,7 +30,7 @@ db_config_haha = {
     "password": "MyNewPass5!",
     "database": "mydb",
 }
-
+# generic password for testing environment
 
 # Create a connection pool
 connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **db_config_haha)
