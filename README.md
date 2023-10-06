@@ -9,6 +9,11 @@ The website will show packages of day trip in Taipei. Users could see the introd
 There will be a payment system. <br>
 
 
-Updated: September 28, 2023.  <br>
+Updated: October 6, 2023.  <br>
 
-New: We could now reserve a sight tour! The next update will be payment system. <br>
+New: Payment system is ready! After payment goes through, you will get confirmation number. However, payment is still for sandbox environment. <br>
+
+You could use these info for testing! <br>
+Card number: 4242 4242 4242 4242 <br>
+Expiration date: 04 / 24 <br>
+CCV: 123 <br>
