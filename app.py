@@ -1,7 +1,6 @@
 from flask import *
 import jwt
 from datetime import datetime, timedelta
-import datetime
 import requests
 
 app=Flask(__name__)
@@ -581,7 +580,7 @@ def orders_post():
     data_json = request.get_json()
     prime = data_json['prime']
 
-    current_datetime = datetime.datetime.now()
+    current_datetime = datetime.now()
     order_number = current_datetime.strftime("%Y%m%d%H%M%S%f") + str(data_json['member_login_id'])
     
     query = "INSERT INTO orders(order_number, contact_name, contact_email, contact_phone, \
