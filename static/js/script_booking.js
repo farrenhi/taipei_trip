@@ -242,32 +242,32 @@ async function onSubmit(event) {
     }
 
     // Get prime
-    await TPDirect.card.getPrime((result) => {
+    TPDirect.card.getPrime((result) => {
         if (result.status !== 0) {
             alert('get prime error ' + result.msg)
             return
         }
-
-        alert('get prime successfully! prime: ' + result.card.prime);
-
-        send_booking_to_backend(result.card.prime);
-
-
-        // send prime to your server, to pay with Pay by Prime API .
-        // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
+        // alert('get prime successfully! prime: ' + result.card.prime);
+        send_booking_to_backend(result.card.prime)
+        .then(result => result.json())
+        .then((result) => {
+            const order_number = result.data.number;
+            const redirectUrl = `/thankyou?number=${order_number}`;
+            window.location.href = redirectUrl;
+        })
     })
+    
 }
 
 
 async function send_booking_to_backend(prime) {
     const token = localStorage.getItem('jwtToken')
-
     let data = await get_trip(token);
 
     let name = document.getElementById('contact_name').value;
     let email = document.getElementById('contact_email').value;
     let phone = document.getElementById('contact_mobile').value;
-    console.log("testinfoL", info_login['member_login_id']);
+    // console.log("testinfoL", info_login['member_login_id']);
 
     data_order = {
         "prime": prime,

@@ -82,6 +82,21 @@ def execute_query_read(query, data=None):
         connection.close()
         return myresult
 
+def execute_query_update(query, data=None):
+    connection = connection_pool.get_connection()
+    cursor = connection.cursor(dictionary=True)
+    try:
+        cursor.execute(query, data)
+        connection.commit()
+        return True
+    except Exception as e:
+        connection.rollback()
+        print("Error:", e)
+        return False
+    finally:
+        cursor.close()
+        connection.close()
+
 # Pages
 @app.route("/")
 def index():
@@ -569,27 +584,30 @@ def orders_post():
     current_datetime = datetime.datetime.now()
     order_number = current_datetime.strftime("%Y%m%d%H%M%S%f") + str(data_json['member_login_id'])
     
-    query = "INSERT INTO orders(order_number, contact_name, contact_email, contact_phone, payment, sight_id, member_id) \
-             VALUES(%s, %s, %s, %s, %s, %s, %s);"
+    query = "INSERT INTO orders(order_number, contact_name, contact_email, contact_phone, \
+             payment_status, price, sight_id, member_id, trip_date, trip_time) \
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
     data = (order_number, 
             data_json['contact']['name'], 
             data_json['contact']['email'],
             data_json['contact']['phone'],
             0,
+            data_json['order']['price'],
             data_json['order']['trip']['attraction']['id'], 
-            data_json['member_login_id'])
+            data_json['member_login_id'],
+            data_json['order']['date'],
+            data_json['order']['time'],
+            )
     
     if execute_query_create(query, data):
-        response = {
-            "ok": True
-        }
-        # return jsonify(response), 200
+        # print("new order created in SQL database")
+        pass
     else:
         response = {
             "error": True,
-            "message": "SQL database internal issue"
+            "message": "SQL database issue: booking order is not created."
         }
-        # return jsonify(response), 500
+        return jsonify(response), 500
         
     # call TapPay API for payment process
     cardholder = {
@@ -598,12 +616,39 @@ def orders_post():
         "email": data_json['contact']['email'],
     }
     
-    response = connect_tappay(prime, cardholder)
     
+    response_tappay = connect_tappay(prime, cardholder)
+    json_response = json.dumps(response_tappay)
+    # print(response_tappay)
+    # print(type(response_tappay))
     
+    query = "UPDATE orders SET payment_memo = %s WHERE order_number = %s"
+    data = (json_response, order_number)
+    if execute_query_update(query, data):
+        # print("payment info recorded")
+        pass
+    else:
+        response = {
+            "error": True,
+            "message": "SQL database is not updated with payment process info"
+        }
+        return  jsonify(response), 500
     
-    if response['status'] == 0:
+    if response_tappay['status'] == 0:
+        query = "UPDATE orders SET payment_status = %s WHERE order_number = %s"
+        data = (1, order_number)
+        execute_query_update(query, data)
+        session.clear()
+        # print("payment status is set to 1. Paid!")
         
+    response_frontend = {"data": {
+        "number": order_number,
+        "payment": {
+            "status": response_tappay['status'],
+            "message": "payment processed"
+        }
+    }}
+    return jsonify(response_frontend), 200
     
     
 def connect_tappay(prime, cardholder):
@@ -635,9 +680,42 @@ def connect_tappay(prime, cardholder):
     return response_json
 
     
-
-
+@app.route('/api/order/<int:order_number>', methods=['GET'])
+def orders_get(order_number):
+    auth_header = request.headers.get('Authorization')
+    return_login_failure(auth_header)
     
+    query = "SELECT * FROM orders WHERE order_number = (%s)"
+    data = (order_number,)
+    result = execute_query_read(query, data)
+    if result:
+        order_data = result[0]  # Assuming there's only one result
+        sight_info = get_attraction_lookup(order_data["sight_id"])[0]
+        
+        formatted_data = {
+            "data": {
+                "number": order_data["order_number"],
+                "price": order_data["price"],
+                "trip": {
+                    "attraction": {
+                        "id": order_data["sight_id"],
+                        "name": sight_info["name"],
+                        "address": sight_info["address"],
+                        "image": sight_info["image"]
+                    },
+                    "date": order_data["trip_date"].strftime("%Y-%m-%d"),
+                    "time": order_data["trip_time"].lower()
+                },
+                "contact": {
+                    "name": order_data["contact_name"],
+                    "email": order_data["contact_email"],
+                    "phone": order_data["contact_phone"]
+                },
+                "status": int(order_data["payment_status"])  # Convert to integer
+            }
+        }
+        return jsonify(formatted_data), 200
+
 
 
 
