@@ -37,6 +37,10 @@ let info_login = {};
 // login_check() would return token or null
 async function login_check() {
     const token = localStorage.getItem('jwtToken');
+    const currentURL = window.location.href;
+    const lastSlashIndex = currentURL.lastIndexOf('/');
+    const pathAfterLastSlash = currentURL.substring(lastSlashIndex + 1);
+
 
     if (token) {
         try {
@@ -55,11 +59,27 @@ async function login_check() {
             if (data["data"]) {
                 document.getElementById('loginButton').style.display = 'none';
                 document.getElementById('logout_button').style.display = 'block';
+                if (pathAfterLastSlash == 'booking') {
+                    get_booking_page();
+                }
                 return token; // Return the token if user is logged in
             } else if (data["error"]) {
+                if (pathAfterLastSlash == 'booking') {
+                    window.location.href = "/";
+                }
+
                 open_login();
                 return null; // Return null if user is not logged in
             }
+
+
+
+
+
+            // if () {
+
+            // }
+
         } catch (error) {
             console.error('Fetch Error, token did not make it to backend API:', error);
             return null;
@@ -67,7 +87,11 @@ async function login_check() {
     } else if (force_login == true) {
         open_login();
         return null;
-    } // this part needs to be double checked.
+    } else {
+        if (pathAfterLastSlash == 'booking') {
+            window.location.href = "/";
+        }
+    };// this part needs to be double checked.
 }
 
 
