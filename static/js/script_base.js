@@ -60,7 +60,7 @@ async function login_check() {
                 return null; // Return null if user is not logged in
             }
         } catch (error) {
-            console.error('Fetch Error:', error);
+            console.error('Fetch Error, token did not make it to backend API:', error);
             return null;
         }
     } else if (force_login == true) {
