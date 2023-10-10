@@ -32,14 +32,15 @@ let force_login = false;
 // }
 
 
-const info_login = {};
+let info_login = {};
 
+// login_check() would return token or null
 async function login_check() {
     const token = localStorage.getItem('jwtToken');
 
     if (token) {
         try {
-            const response = await fetch('/api/user/auth', {
+            let response = await fetch('/api/user/auth', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ async function login_check() {
                 }
             });
 
-            const data = await response.json();
+            let data = await response.json();
             info_login['name'] = data['data']['name'];
             info_login['member_login_id'] = data['data']['id'];
 
@@ -66,7 +67,7 @@ async function login_check() {
     } else if (force_login == true) {
         open_login();
         return null;
-    }
+    } // this part needs to be double checked.
 }
 
 
