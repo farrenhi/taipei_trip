@@ -1,5 +1,3 @@
-let force_login = false;
-
 // function login_check() {
 //     const token = localStorage.getItem('jwtToken');
 //     // console.log(token);
@@ -31,7 +29,7 @@ let force_login = false;
 //     }
 // }
 
-
+let force_login = false;
 let info_login = {};
 
 // login_check() would return token or null
@@ -40,7 +38,6 @@ async function login_check() {
     const currentURL = window.location.href;
     const lastSlashIndex = currentURL.lastIndexOf('/');
     const pathAfterLastSlash = currentURL.substring(lastSlashIndex + 1);
-
 
     if (token) {
         try {
@@ -71,15 +68,6 @@ async function login_check() {
                 open_login();
                 return null; // Return null if user is not logged in
             }
-
-
-
-
-
-            // if () {
-
-            // }
-
         } catch (error) {
             console.error('Fetch Error, token did not make it to backend API:', error);
             return null;
@@ -94,17 +82,26 @@ async function login_check() {
     };// this part needs to be double checked.
 }
 
+// reserve button
+// document.querySelector('.item1').addEventListener('click', () => {
+//     force_login = true;
+//     // login_check();
+//     login_check().then(token => {
+//       if (token) {
+//           window.location.href = "/booking";
+//       }
+//     });
+//   });
 
 document.querySelector('.item1').addEventListener('click', () => {
-    force_login = true;
-    // login_check();
-    login_check().then(token => {
-      if (token) {
-          window.location.href = "/booking";
-      }
-    });
-  });
-
+    const token = localStorage.getItem('jwtToken');
+    force_login == true
+    if (!token) {
+        login_check()
+    } else {
+        window.location.href = "/booking";
+    }
+});
 
 
 document.addEventListener('DOMContentLoaded', function() {
