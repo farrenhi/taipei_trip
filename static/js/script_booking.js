@@ -290,6 +290,9 @@ async function onSubmit(event) {
             return
         }
         // alert('get prime successfully! prime: ' + result.card.prime);
+
+
+        // send prime data to backend API. Need to wait till we get prime info from call back
         send_booking_to_backend(result.card.prime)
         .then(result => result.json())
         .then((result) => {
@@ -298,9 +301,7 @@ async function onSubmit(event) {
             window.location.href = redirectUrl;
         })
     })
-    
 }
-
 
 async function send_booking_to_backend(prime) {
     const token = localStorage.getItem('jwtToken')
