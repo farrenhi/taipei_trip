@@ -284,23 +284,30 @@ async function onSubmit(event) {
     }
 
     // Get prime
-    TPDirect.card.getPrime((result) => {
-        if (result.status !== 0) {
-            alert('get prime error ' + result.msg)
-            return
+    const prime_result = await get_tappay_prime();
+    // console.log(prime_result);
+
+    let booking_result = await send_booking_to_backend(prime_result);
+    booking_result = await booking_result.json();
+
+    const order_number = booking_result.data.number;
+    const redirectUrl = `/thankyou?number=${order_number}`;
+    window.location.href = redirectUrl;
+}
+
+function get_tappay_prime() {
+    return new Promise(
+        function(resolve, reject) {
+            TPDirect.card.getPrime((result) => {
+                if (result.status !== 0) {
+                    alert('get prime error ' + result.msg)
+                    return
+                }
+                resolve(result.card.prime);
+                reject("cannot get prime data");
+            })
         }
-        // alert('get prime successfully! prime: ' + result.card.prime);
-
-
-        // send prime data to backend API. Need to wait till we get prime info from call back
-        send_booking_to_backend(result.card.prime)
-        .then(result => result.json())
-        .then((result) => {
-            const order_number = result.data.number;
-            const redirectUrl = `/thankyou?number=${order_number}`;
-            window.location.href = redirectUrl;
-        })
-    })
+    )
 }
 
 async function send_booking_to_backend(prime) {

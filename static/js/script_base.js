@@ -38,6 +38,17 @@ async function login_check() {
     const currentURL = window.location.href;
     const lastSlashIndex = currentURL.lastIndexOf('/');
     const pathAfterLastSlash = currentURL.substring(lastSlashIndex + 1);
+    console.log(pathAfterLastSlash)
+    let wordBeforeQuestionMark = ''
+
+
+    const parts = pathAfterLastSlash.split('?');
+
+    if (parts.length > 1) {
+        wordBeforeQuestionMark = parts[0];
+        // console.log(wordBeforeQuestionMark); // Output: thankyou
+    }
+
 
     if (token) {
         try {
@@ -56,9 +67,13 @@ async function login_check() {
             if (data["data"]) {
                 document.getElementById('loginButton').style.display = 'none';
                 document.getElementById('logout_button').style.display = 'block';
+
                 if (pathAfterLastSlash == 'booking') {
                     get_booking_page();
+                } else if (wordBeforeQuestionMark == "thankyou") {
+                    get_thankyou_page();
                 }
+
                 return token; // Return the token if user is logged in
             } else if (data["error"]) {
                 if (pathAfterLastSlash == 'booking') {

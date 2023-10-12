@@ -1,12 +1,34 @@
-            // fetch('http://127.0.0.1:3000/api/mrts')
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         const container = document.getElementById('container');
+// const currentURL = 'http://127.0.0.1:3000/booking'
+// const currentURL = "http://127.0.0.1:3000/"
+const currentURL = 'http://127.0.0.1:3000/thankyou?number=202310121525125497581'
 
-            //         data.data.forEach((name, index) => {
-            //             const div = document.createElement('div');
-            //             div.textContent = name;
-            //             container.appendChild(div);
-            //         });
-            //     })
-            //     .catch(error => console.error('Error:', error));
+const lastSlashIndex = currentURL.lastIndexOf('/');
+const pathAfterLastSlash = currentURL.substring(lastSlashIndex + 1);
+
+console.log(pathAfterLastSlash);
+
+const path_before_questionmark = pathAfterLastSlash.lastIndexOf('?')
+const keyword = pathAfterLastSlash.substring(lastSlashIndex);
+
+console.log(keyword); // Output: thankyou
+
+// const firstEnglishCharacters = pathAfterLastSlash.match(/[a-zA-Z]+/)[0];
+
+// console.log(firstEnglishCharacters); // Output: thankyou
+
+
+
+
+// const currentURL = new URL(window.location.href); // Parse the URL
+// const pathAfterLastSlash = currentURL.pathname.substring(currentURL.pathname.lastIndexOf('/') + 1);
+// console.log(pathAfterLastSlash);
+
+
+
+// const currentURL = 'http://127.0.0.1:3000/thankyou?number=202310121525125497581'
+// const pathAfterLastSlash = currentURL.pathname.substring(currentURL.pathname.lastIndexOf('/') + 1);
+// console.log(pathAfterLastSlash);
+
+// const lastSlashIndex = currentURL.lastIndexOf('/');
+// const pathAfterLastSlash = currentURL.substring(lastSlashIndex + 1);
+// console.log(pathAfterLastSlash);
