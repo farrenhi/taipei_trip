@@ -1,34 +1,3 @@
-// function login_check() {
-//     const token = localStorage.getItem('jwtToken');
-//     // console.log(token);
-
-//     if (token) {
-//     fetch('/api/user/auth', {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${token}`,
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         // console.log('Fetch Success Yes:', data);
-//         if (data["data"]) {
-//             document.getElementById('loginButton').style.display = 'none';
-//             document.getElementById('logout_button').style.display = 'block';
-
-//         } else if (data["error"]) {
-//             open_login();
-//         }
-//     })
-//     .catch((error) => {
-//         console.error('Fetch Error Error:', error);
-//     });
-//     } else if (force_login == true) {
-//         open_login();
-//     }
-// }
-
 let force_login = false;
 let info_login = {};
 
@@ -91,30 +60,23 @@ async function login_check() {
         open_login();
         return null;
     } else {
+        console.log("check point for reserve 3")
+        console.log(force_login)
+        
         if (pathAfterLastSlash == 'booking' || wordBeforeQuestionMark == "thankyou") {
             window.location.href = "/";
         }
     };// this part needs to be double checked.
 }
 
-// reserve button
-// document.querySelector('.item1').addEventListener('click', () => {
-//     force_login = true;
-//     // login_check();
-//     login_check().then(token => {
-//       if (token) {
-//           window.location.href = "/booking";
-//       }
-//     });
-//   });
-
 document.querySelector('.item1').addEventListener('click', () => {
     const token = localStorage.getItem('jwtToken');
-    force_login == true
+    force_login = true;
     if (!token) {
         login_check()
     } else {
         window.location.href = "/booking";
+        console.log("checkpoint for reserve")
     }
 });
 
