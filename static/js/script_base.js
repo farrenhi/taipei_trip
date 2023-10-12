@@ -91,7 +91,7 @@ async function login_check() {
         open_login();
         return null;
     } else {
-        if (pathAfterLastSlash == 'booking') {
+        if (pathAfterLastSlash == 'booking' || wordBeforeQuestionMark == "thankyou") {
             window.location.href = "/";
         }
     };// this part needs to be double checked.
