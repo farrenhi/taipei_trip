@@ -1,4 +1,12 @@
 from flask import *
+from dotenv import load_dotenv
+import os
+load_dotenv()  # take environment variables from .env.
+
+# Code of your application, which uses environment variables (e.g. from `os.environ` or
+# `os.getenv`) as if they came from the actual environment.
+
+
 import jwt
 from datetime import datetime, timedelta
 import requests
@@ -15,7 +23,11 @@ app = Flask(
 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.secret_key = 'your_secret_key' 
+
+app.secret_key = os.getenv('app_secret_key')
+### keep work on this!
+
+ 
 # generic key for testing environment
 
 
