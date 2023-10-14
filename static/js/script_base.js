@@ -1,45 +1,27 @@
 let force_login = false;
+let info_login = {};
 
-// function login_check() {
-//     const token = localStorage.getItem('jwtToken');
-//     // console.log(token);
-
-//     if (token) {
-//     fetch('/api/user/auth', {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${token}`,
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         // console.log('Fetch Success Yes:', data);
-//         if (data["data"]) {
-//             document.getElementById('loginButton').style.display = 'none';
-//             document.getElementById('logout_button').style.display = 'block';
-
-//         } else if (data["error"]) {
-//             open_login();
-//         }
-//     })
-//     .catch((error) => {
-//         console.error('Fetch Error Error:', error);
-//     });
-//     } else if (force_login == true) {
-//         open_login();
-//     }
-// }
-
-
-const info_login = {};
-
+// login_check() would return token or null
 async function login_check() {
     const token = localStorage.getItem('jwtToken');
+    const currentURL = window.location.href;
+    const lastSlashIndex = currentURL.lastIndexOf('/');
+    const pathAfterLastSlash = currentURL.substring(lastSlashIndex + 1);
+    console.log(pathAfterLastSlash)
+    let wordBeforeQuestionMark = ''
+
+
+    const parts = pathAfterLastSlash.split('?');
+
+    if (parts.length > 1) {
+        wordBeforeQuestionMark = parts[0];
+        // console.log(wordBeforeQuestionMark); // Output: thankyou
+    }
+
 
     if (token) {
         try {
-            const response = await fetch('/api/user/auth', {
+            let response = await fetch('/api/user/auth', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,38 +29,56 @@ async function login_check() {
                 }
             });
 
-            const data = await response.json();
+            let data = await response.json();
             info_login['name'] = data['data']['name'];
+            info_login['member_login_id'] = data['data']['id'];
 
             if (data["data"]) {
                 document.getElementById('loginButton').style.display = 'none';
                 document.getElementById('logout_button').style.display = 'block';
+
+                if (pathAfterLastSlash == 'booking') {
+                    get_booking_page();
+                } else if (wordBeforeQuestionMark == "thankyou") {
+                    get_thankyou_page();
+                }
+
                 return token; // Return the token if user is logged in
             } else if (data["error"]) {
+                if (pathAfterLastSlash == 'booking') {
+                    window.location.href = "/";
+                }
+
                 open_login();
                 return null; // Return null if user is not logged in
             }
         } catch (error) {
-            console.error('Fetch Error:', error);
+            console.error('Fetch Error, token did not make it to backend API:', error);
             return null;
         }
     } else if (force_login == true) {
         open_login();
         return null;
-    }
+    } else {
+        console.log("check point for reserve 3")
+        console.log(force_login)
+        
+        if (pathAfterLastSlash == 'booking' || wordBeforeQuestionMark == "thankyou") {
+            window.location.href = "/";
+        }
+    };// this part needs to be double checked.
 }
 
-
 document.querySelector('.item1').addEventListener('click', () => {
+    const token = localStorage.getItem('jwtToken');
     force_login = true;
-    // login_check();
-    login_check().then(token => {
-      if (token) {
-          window.location.href = "/booking";
-      }
-    });
-  });
-
+    if (!token) {
+        login_check()
+    } else {
+        window.location.href = "/booking";
+        console.log("checkpoint for reserve")
+    }
+});
 
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -52,18 +52,22 @@
 
     <div class="payment">
         <div class="button_btn_bold contact_title"> Credit Card Payment </div>
-        <div class="body_body_medium"> 
+
+        <div class="body_body_medium card_info"> 
             <span> Credit Card Number: </span> 
-            <input type="text" id="payment_cardnumber" placeholder="**** **** **** ****" required class="contact_input_box body_body_medium">
+            <div type="text" id="card-number" placeholder="**** **** **** ****" required class="card_input_box body_body_medium"></div>
         </div>
-        <div class="body_body_medium"> 
+
+        <div class="body_body_medium card_info"> 
             <span> Expiration Date: </span> 
-            <input type="text" id="payment_expdate" placeholder="MM / YY" required class="contact_input_box body_body_medium">
+            <div type="text" id="card-expiration-date" placeholder="MM / YY" required class="card_input_box body_body_medium"></div>
         </div>
-        <div class="body_body_medium">  
+
+        <div class="body_body_medium card_info">  
             <span> Security Code: </span> 
-            <input type="text" id="payment_code" placeholder="CVV or CVC" required class="contact_input_box body_body_medium">
+            <div type="text" id="card-ccv" placeholder="CVV or CVC" required class="card_input_box body_body_medium"></div>
         </div>
+
 
     </div>
 
@@ -71,7 +75,7 @@
         <div class="confirm_box">
             <div class="confirm_box_price body_body_bold"> Price: </div>
             <div class="confirm_box_button">
-                <button type="submit" class="confirm_box_button2 button_btn_regular"> Place your Order </button>
+                <button type="submit" class="confirm_box_button2 button_btn_regular" onclick="onSubmit(event)"> Place your Order </button>
             </div>
         </div>
     </div>
@@ -86,5 +90,10 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+<script>
+    TPDirect.setupSDK(137220, 'app_nW3sYGT1umKVLy9V4twpT4y44yLHskwWv94Ls6T5ujxac40Bl75VJ3ZLC2uU', 'sandbox')
+</script>
+
 <script src="/static/js/script_booking.js"></script>
 {% endblock %}

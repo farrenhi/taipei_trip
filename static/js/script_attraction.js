@@ -164,3 +164,13 @@ function updateFee(selectedTime) {
 updateFee();
 
 
+select_travel_date_add_min_date()
+
+function select_travel_date_add_min_date() {
+  let today = new Date()
+  let year = today.getFullYear()
+  let month = today.getMonth()+1 < 10 ? "0"+(today.getMonth()+1) : today.getMonth()+1
+  let date = today.getDate() <10 ? "0"+today.getDate() : today.getDate()
+  let min_date = `${year}-${month}-${date}`
+  document.getElementsByClassName("date_form")[0].min = min_date
+}

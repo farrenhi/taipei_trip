@@ -1001,6 +1001,13 @@ border: 1px solid white;
     align-items: center;
 } */
 
+.card_info {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+
 .contact_input_box {
     width: 180px;
     height: 18px;
@@ -1008,9 +1015,22 @@ border: 1px solid white;
     box-sizing: content-box;
     border-radius: 5px; 
     border: 1px solid #E8E8E8;
-    margin-top: 15px; 
+    margin-left: 5px;
+    margin-top: 15px;
+}
+
+.card_input_box {
+    width: 180px;
+    height: 18px;
+    padding: 10px;
+    box-sizing: content-box;
+    border-radius: 5px; 
+    border: 1px solid #E8E8E8;
     margin-left: 5px;
 }
+
+
+
 
 .payment {
     margin: 40px auto;
