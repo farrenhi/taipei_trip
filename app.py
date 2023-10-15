@@ -6,14 +6,11 @@ load_dotenv()  # take environment variables from .env.
 # Code of your application, which uses environment variables (e.g. from `os.environ` or
 # `os.getenv`) as if they came from the actual environment.
 
-
 import jwt
 from datetime import datetime, timedelta
 import requests
 
 app=Flask(__name__)
-
-
 
 app = Flask(
     __name__,
@@ -25,23 +22,15 @@ app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 app.secret_key = os.getenv('app_secret_key')
-### keep work on this!
-
- 
-# generic key for testing environment
-
-
 
 # Connection Pool
 import mysql.connector.pooling
 
 # local parameters
-db_config_haha = {
-    "host": "localhost",
-    "user": "root",
-    "password": "MyNewPass5!",
-    "database": "mydb",
-}
+db_config_haha = os.getenv('db_config_haha')
+db_config_haha = eval(db_config_haha)
+
+
 # generic password for testing environment
 
 # Create a connection pool
@@ -373,8 +362,8 @@ def signin():
         
         token = jwt.encode(
             payload = payload_data,
-            key = 'secret',
-            algorithm="HS256",
+            key = os.getenv('jwt_key'),
+            algorithm = os.getenv('jwt_algorithm'),
         )
         
         return jsonify({"token": token}), 200
@@ -394,13 +383,13 @@ def signin_get():
 
     if not auth_header:
         return jsonify({"error": "Authorization header is missing"}), 401  # Unauthorized
-    # Check if the header starts with 'Bearer'
+
     token_type, token = auth_header.split()
-    if token_type != 'Bearer':
+    if token_type != os.getenv('token_type'):
         return jsonify({"error": "Invalid token type"}), 401  # Unauthorized
     try:
         # Verify and decode the token
-        payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        payload = jwt.decode(token, os.getenv('jwt_key'), algorithms=[os.getenv('jwt_algorithm')])
         # print(payload)
         # Token is valid, user is logged in
         return jsonify({"data": payload}), 200
@@ -414,10 +403,10 @@ def auth_check(item):
         return False
     
     token_type, token = item.split()
-    if token_type != 'Bearer':
+    if token_type != os.getenv('token_type'):
         return False
     try:
-        payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        payload = jwt.decode(token, os.getenv('jwt_key'), algorithms=[os.getenv('jwt_algorithm')])
         return True
     except jwt.ExpiredSignatureError:
         return False
@@ -661,7 +650,7 @@ def connect_tappay(prime, cardholder):
     # Define the request payload
     payload = {
         "prime": prime,
-        "partner_key": 'partner_h7AuQ40Oq7cXYX4roROxccn1m5zQf4GOPMJ11SqKfCo3YHt5c4VT2H7r',
+        "partner_key": os.getenv('partner_key'),
         "merchant_id": "testandtest_TAISHIN",
         "details": "TapPay Test",
         "amount": 1,
@@ -672,7 +661,7 @@ def connect_tappay(prime, cardholder):
     # Define headers
     headers = {
         "Content-Type": "application/json",
-        "x-api-key": "partner_h7AuQ40Oq7cXYX4roROxccn1m5zQf4GOPMJ11SqKfCo3YHt5c4VT2H7r"
+        "x-api-key": os.getenv('x-api-key'),
     }
 
     # Make the request
