@@ -10,6 +10,8 @@ import jwt
 from datetime import datetime, timedelta
 import requests
 from general import general # blueprint import
+from sights import sights # blueprint import
+from cart import booking, thankyou # blueprint import
 
 
 app = Flask(__name__)
@@ -21,7 +23,9 @@ app = Flask(
 
 # Register the blueprint
 app.register_blueprint(general) # blueprint registration
-
+app.register_blueprint(sights) # blueprint registration
+app.register_blueprint(booking) # blueprint registration
+app.register_blueprint(thankyou)
 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
@@ -98,17 +102,17 @@ def execute_query_update(query, data=None):
 # def index():
 # 	return render_template("index.html")
 
-@app.route("/attraction/<id>")
-def attraction(id):
-	return render_template("attraction.html")
+# @app.route("/attraction/<id>")
+# def attraction(id):
+# 	return render_template("attraction.html")
 
-@app.route("/booking")
-def booking():
-	return render_template("booking.html")
+# @app.route("/booking")
+# def booking():
+# 	return render_template("booking.html")
 
-@app.route("/thankyou")
-def thankyou():
-	return render_template("thankyou.html")
+# @app.route("/thankyou")
+# def thankyou():
+# 	return render_template("thankyou.html")
 
 @app.route('/api/mrts', methods=["GET"])
 def mrts():

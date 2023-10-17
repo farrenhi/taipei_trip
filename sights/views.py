@@ -5,9 +5,9 @@ from flask import *
 # # Create a Blueprint instance
 # general = Blueprint('general', __name__)
 
-from . import general
 
-# Define routes and views for this blueprint
-@general.route("/")
-def index():
-	return render_template("index.html")
+from . import sights
+
+@sights.route("/attraction/<id>")
+def attraction(id):
+	return render_template("attraction.html")
