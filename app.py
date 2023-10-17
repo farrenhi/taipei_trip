@@ -9,14 +9,19 @@ load_dotenv()  # take environment variables from .env.
 import jwt
 from datetime import datetime, timedelta
 import requests
+from general import general # blueprint import
 
-app=Flask(__name__)
 
+app = Flask(__name__)
 app = Flask(
     __name__,
     static_folder = "static",
     static_url_path = "/static",
 )
+
+# Register the blueprint
+app.register_blueprint(general) # blueprint registration
+
 
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
@@ -29,7 +34,6 @@ import mysql.connector.pooling
 # local parameters
 db_config_haha = os.getenv('db_config_haha')
 db_config_haha = eval(db_config_haha)
-
 
 # generic password for testing environment
 
@@ -90,9 +94,9 @@ def execute_query_update(query, data=None):
         connection.close()
 
 # Pages
-@app.route("/")
-def index():
-	return render_template("index.html")
+# @general.route("/")
+# def index():
+# 	return render_template("index.html")
 
 @app.route("/attraction/<id>")
 def attraction(id):
