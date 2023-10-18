@@ -9,3 +9,5 @@ thankyou = Blueprint('thankyou', __name__, template_folder='templates/cart',
 
 
 from . import views
+
+from . import routes

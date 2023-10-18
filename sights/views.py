@@ -11,3 +11,4 @@ from . import sights
 @sights.route("/attraction/<id>")
 def attraction(id):
 	return render_template("attraction.html")
+
