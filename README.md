@@ -9,6 +9,7 @@ Currently, the website shows packages of day trip in Taipei. Users could see the
 Updated: October 18, 2023.  <br>
 
 
+
 New: Payment system is ready! After payment goes through, you will get confirmation number. However, payment is still for sandbox environment. <br>
 
 You could use these info for testing! <br>
