@@ -194,7 +194,7 @@
                 isLoading = true;
                 
                 fetch(
-                `http://${hostname}:3000/api/attractions?page=${nextPage}&keyword=${userInput}`
+                `/api/attractions?page=${nextPage}&keyword=${userInput}`
                 )
                 
                 .then(function (response) {
